@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 
-<title> Movies | Vodi - Responsive Website Template</title>
+<title> Movies | Vodi </title>
 
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -54,7 +54,7 @@
 </div>
 
 
-<a class="navbar-brand w-auto mr-xl-5 mr-wd-8" href="../home/index.html" aria-label="Vodi">
+<a class="navbar-brand w-auto mr-xl-5 mr-wd-8" href="{% url 'index' %}" aria-label="Vodi">
 <svg version="1.1" width="103" height="40px">
 <linearGradient id="vodi-gr" x1="0%" y1="0%" x2="100%" y2="0%">
 <stop offset="0" style="stop-color:#2A4999"></stop>
@@ -84,8 +84,8 @@
 <div class="navbar-body header-abs-top-inner">
 <ul class="navbar-nav">
 
-<li class="hs-has-sub-menu navbar-nav-item">
-<a id="pagesMegaMenu" class="hs-mega-menu-invoker nav-link nav-link-toggle font-secondary" href="javascript:;" aria-haspopup="true" aria-expanded="false" aria-labelledby="pagesSubMenu">Films</a>
+<li class="navbar-nav-item">
+<a class="hs-mega-menu-invoker  font-secondary" href="{% url 'movies' %}" aria-haspopup="true" aria-expanded="false">Films</a>
 
 <li class="hs-has-mega-menu navbar-nav-item">
 <a id="moviesMegaMenu" class="hs-mega-menu-invoker nav-link nav-link-toggle font-secondary" href="javascript:;" aria-haspopup="true" aria-expanded="false">Playlist</a>

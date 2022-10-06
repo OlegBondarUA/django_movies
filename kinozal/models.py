@@ -26,12 +26,18 @@ class Actor(models.Model):
         return self.name
 
 
+class Country(models.Model):
+    country = models.CharField(max_length=50, unique=True)
+
+    def __str__(self):
+        return self.country
+
+
 class Film(models.Model):
-    base_url = models.URLField(max_length=512)
+    base_url = models.URLField(max_length=512, null=True, blank=True)
     title = models.CharField(max_length=255)
     slug = models.SlugField(max_length=255, unique=True)
     release_year = models.PositiveSmallIntegerField(null=True)
-    country = models.CharField(max_length=50)
     duration = models.CharField(max_length=50, null=True)
     rating = models.FloatField(max_length=5, null=True)
     description = models.TextField(default='')
@@ -40,6 +46,7 @@ class Film(models.Model):
     trailer_link = models.URLField(max_length=255, null=True, blank=True)
     data_created = models.DateTimeField(auto_now_add=True)
 
+    country = models.ManyToManyField(Country, related_name='films')
     categories = models.ManyToManyField(Category, related_name='films')
     directors = models.ManyToManyField(Director, related_name='films')
     actors = models.ManyToManyField(Actor, related_name='films')

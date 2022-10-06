@@ -1,26 +1,21 @@
-<!--{% load static %}-->
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
 
-<title>Home Page | Vodi - Responsive Website Template</title>
-
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-<link rel="shortcut icon" href="../../favicon.ico">
+<title>Home page | Vodi - Movie site</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&family=Open+Sans:wght@300;400;600;700;800&display=swap" rel="stylesheet">
 
-<link rel="stylesheet" href="../../static/vendor/font-awesome/css/all.min.css">
-<link rel="stylesheet" href="../../static/vendor/hs-mega-menu/dist/hs-mega-menu.min.css">
-<link rel="stylesheet" href="../../static/vendor/dzsparallaxer/dzsparallaxer.css">
-<link rel="stylesheet" href="../../static/vendor/cubeportfolio/css/cubeportfolio.min.css">
-<link rel="stylesheet" href="../../static/vendor/aos/dist/aos.css">
-<link rel="stylesheet" href="../../static/vendor/slick-carousel/slick/slick.css">
-<link rel="stylesheet" href="../../static/vendor/fancybox/dist/jquery.fancybox.css">
+<link rel="stylesheet" href="{% static 'vendor/font-awesome/css/all.min.css' %}">
+<link rel="stylesheet" href="{% static 'vendor/hs-mega-menu/dist/hs-mega-menu.min.css' %}">
+<link rel="stylesheet" href="{% static 'vendor/dzsparallaxer/dzsparallaxer.css' %}">
+<link rel="stylesheet" href="{% static 'vendor/cubeportfolio/css/cubeportfolio.min.css' %}">
+<link rel="stylesheet" href="{% static 'vendor/aos/dist/aos.css' %}">
+<link rel="stylesheet" href="{% static 'vendor/slick-carousel/slick/slick.css' %}">
+<link rel="stylesheet" href="{% static 'vendor/fancybox/dist/jquery.fancybox.css' %}">
 
-<link rel="stylesheet" href="../../static/css/theme.css">
+<link rel="stylesheet" href="{% static 'css/theme.css' %}">
 </head>
 <body>
 
@@ -46,7 +41,7 @@
 </div>
 
 
-<a class="navbar-brand w-auto mr-xl-5 mr-wd-8" href="../home/index.html" aria-label="Vodi">
+<a class="navbar-brand w-auto mr-xl-5 mr-wd-8" href="{% url 'index' %}" aria-label="Vodi">
 <svg version="1.1" width="103" height="40px">
 <linearGradient id="vodi-gr" x1="0%" y1="0%" x2="100%" y2="0%">
 <stop offset="0" style="stop-color:#2A4999"></stop>
@@ -78,22 +73,16 @@
 
 </li>
 
-<li class="hs-has-sub-menu navbar-nav-item">
-<a id="docsMegaMenu" class="hs-mega-menu-invoker nav-link nav-link-toggle font-secondary" href="javascript:;" aria-haspopup="true" aria-expanded="false">Films</a>
+<li class="navbar-nav-item">
+<a class="hs-mega-menu-invoker  font-secondary" href="{% url 'movies' %}" aria-haspopup="true" aria-expanded="false">Фільми</a>
 
 <div class="hs-sub-menu dropdown-menu mega-menu-sub-menu-md" aria-labelledby="docsMegaMenu">
 
-
-</li>
-
-
 <li class="hs-has-sub-menu navbar-nav-item">
-<a id="docsMegaMenu" class="hs-mega-menu-invoker nav-link nav-link-toggle font-secondary" href="javascript:;" aria-haspopup="true" aria-expanded="false">Playlist</a>
+<a id="docsMegaMenu" class="hs-mega-menu-invoker nav-link nav-link-toggle font-secondary" href="javascript:;" aria-haspopup="true" aria-expanded="false">Список відтворення</a>
 
 <div class="hs-sub-menu dropdown-menu mega-menu-sub-menu-md" aria-labelledby="docsMegaMenu">
 
-
-</li>
 </ul>
 </div>
 </div>
@@ -179,150 +168,26 @@
                     "infinite": true,
                     "asNavFor": "#sliderSyncingThumb"
                 }'>
-<div class="bg-img-hero d-flex align-items-center min-h-676rem slider-gradient" style="background-image: url(../../static/img/1920x676/img1.jpg);">
+ {% for film in today_recomendation %}
+<div class="bg-img-hero d-flex align-items-center min-h-676rem slider-gradient" style="background-image: url({{ film.image.url }});">
 <div class="container">
 <div class="mx-3 mx-md-5  col-xl-5 px-0">
-<h1 class="display-3 mb-3"><a href="../single-movies/single-movies-v2.html" class="h-w-primary">American Made</a></h1>
+<h1 class="display-3 mb-3"><a href="{% url 'single' film.slug %}" class="h-w-primary">{{ film.title }}</a></h1>
 <div class="mb-4d">
 <ul class="list-unstyled nav nav-meta nav-meta__white">
-<li class="">2020</li>
-<li class=""><a href="../single-movies/single-movies-v2.html">Comedy</a></li>
-<li class="">1hr 55 mins</li>
+<li class="">{{ film.release_year }}</li>
+<li class=""><a href="../single-movies/single-movies-v2.html">{% for cat in film.categories.all %}{{ cat.name}} {% endfor%}</a></li>
+<li class="">{{ film.duration }}</li>
 </ul>
 </div>
 <div class="d-md-flex">
-<a href="../single-movies/single-movies-v2.html" class="btn btn-primary px-6 py-3d btn-sm mb-3 mb-md-0">WATCH NOW</a>
-<a href="../single-movies/single-movies-v2.html" class="btn btn-outline-light ml-md-4 px-6 py-3d btn-sm">+ PLAYLIST</a>
+<a href="{{ film.movie_link }}" class="btn btn-primary px-6 py-3d btn-sm mb-3 mb-md-0">ДИВИТИСЯ ЗАРАЗ</a>
+<a href="{{ film.trailer_link }}" class="btn btn-outline-light ml-md-4 px-6 py-3d btn-sm">ТРЕЙЛЕР</a>
 </div>
 </div>
 </div>
 </div>
-<div class="bg-img-hero d-flex align-items-center min-h-676rem slider-gradient" style="background-image: url(../../static/img/1920x676/img2.jpg);">
-<div class="container">
-<div class="mx-3 mx-md-5  col-xl-5 px-0">
-<h1 class="display-3 mb-3"><a href="../single-movies/single-movies-v2.html" class="h-w-primary">The Convenient Groom</a></h1>
-<div class="mb-4d">
-<ul class="list-unstyled nav nav-meta nav-meta__white">
-<li class="">2020</li>
-<li class=""><a href="../single-movies/single-movies-v2.html">Comedy</a></li>
-<li class="">1hr 55 mins</li>
-</ul>
-</div>
-<div class="d-md-flex">
-<a href="../single-movies/single-movies-v2.html" class="btn btn-primary px-6 py-3d btn-sm mb-3 mb-md-0">WATCH NOW</a>
-<a href="../single-movies/single-movies-v2.html" class="btn btn-outline-light ml-md-4 px-6 py-3d btn-sm">+ PLAYLIST</a>
-</div>
-</div>
-</div>
-</div>
-<div class="bg-img-hero d-flex align-items-center min-h-676rem slider-gradient" style="background-image: url(../../static/img/1920x676/img3.jpg);">
-<div class="container">
-<div class="mx-3 mx-md-5  col-xl-5 px-0">
-<h1 class="display-3 mb-3"><a href="../single-movies/single-movies-v2.html" class="h-w-primary">Pacific Rim: Uprising</a></h1>
-<div class="mb-4d">
-<ul class="list-unstyled nav nav-meta nav-meta__white">
-<li class="">2020</li>
-<li class=""><a href="../single-movies/single-movies-v2.html">Comedy</a></li>
-<li class="">1hr 55 mins</li>
-</ul>
-</div>
-<div class="d-md-flex">
-<a href="../single-movies/single-movies-v2.html" class="btn btn-primary px-6 py-3d btn-sm mb-3 mb-md-0">WATCH NOW</a>
-<a href="../single-movies/single-movies-v2.html" class="btn btn-outline-light ml-md-4 px-6 py-3d btn-sm">+ PLAYLIST</a>
-</div>
-</div>
-</div>
-</div>
-<div class="bg-img-hero d-flex align-items-center min-h-676rem slider-gradient" style="background-image: url(../../static/img/1920x676/img4.jpg);">
- <div class="container">
-<div class="mx-3 mx-md-5  col-xl-5 px-0">
-<h1 class="display-3 mb-3"><a href="../single-movies/single-movies-v2.html" class="h-w-primary">Black Mirror</a></h1>
-<div class="mb-4d">
-<ul class="list-unstyled nav nav-meta nav-meta__white">
-<li class="">2020</li>
-<li class=""><a href="../single-movies/single-movies-v2.html">Comedy</a></li>
-<li class="">1hr 55 mins</li>
-</ul>
-</div>
-<div class="d-md-flex">
-<a href="../single-movies/single-movies-v2.html" class="btn btn-primary px-6 py-3d btn-sm mb-3 mb-md-0">WATCH NOW</a>
-<a href="../single-movies/single-movies-v2.html" class="btn btn-outline-light ml-md-4 px-6 py-3d btn-sm">+ PLAYLIST</a>
-</div>
-</div>
-</div>
-</div>
-<div class="bg-img-hero d-flex align-items-center min-h-676rem slider-gradient" style="background-image: url(../../static/img/1920x676/img5.jpg);">
-<div class="container">
-<div class="mx-3 mx-md-5  col-xl-5 px-0">
-<h1 class="display-3 mb-3"><a href="../single-movies/single-movies-v2.html" class="h-w-primary">Paradigm Lost</a></h1>
-<div class="mb-4d">
-<ul class="list-unstyled nav nav-meta nav-meta__white">
-<li class="">2020</li>
-<li class=""><a href="../single-movies/single-movies-v2.html">Comedy</a></li>
-<li class="">1hr 55 mins</li>
-</ul>
-</div>
-<div class="d-md-flex">
-<a href="../single-movies/single-movies-v2.html" class="btn btn-primary px-6 py-3d btn-sm mb-3 mb-md-0">WATCH NOW</a>
-<a href="../single-movies/single-movies-v2.html" class="btn btn-outline-light ml-md-4 px-6 py-3d btn-sm">+ PLAYLIST</a>
-</div>
-</div>
-</div>
-</div>
-<div class="bg-img-hero d-flex align-items-center min-h-676rem slider-gradient" style="background-image: url(../../static/img/1920x676/img6.jpg);">
-<div class="container">
-<div class="mx-3 mx-md-5  col-xl-5 px-0">
-<h1 class="display-3 mb-3"><a href="../single-movies/single-movies-v2.html" class="h-w-primary">Black Mirror</a></h1>
-<div class="mb-4d">
-<ul class="list-unstyled nav nav-meta nav-meta__white">
-<li class="">2020</li>
-<li class=""><a href="../single-movies/single-movies-v2.html">Comedy</a></li>
-<li class="">1hr 55 mins</li>
-</ul>
-</div>
-<div class="d-md-flex">
-<a href="../single-movies/single-movies-v2.html" class="btn btn-primary px-6 py-3d btn-sm mb-3 mb-md-0">WATCH NOW</a>
-<a href="../single-movies/single-movies-v2.html" class="btn btn-outline-light ml-md-4 px-6 py-3d btn-sm">+ PLAYLIST</a>
-</div>
-</div>
-</div>
-</div>
-<div class="bg-img-hero d-flex align-items-center min-h-676rem slider-gradient" style="background-image: url(../../static/img/1920x676/img7.jpg);">
-<div class="container">
-<div class="mx-3 mx-md-5  col-xl-5 px-0">
-<h1 class="display-3 mb-3"><a href="../single-movies/single-movies-v2.html" class="h-w-primary">Fantastic Beasts and Where to Find Them</a></h1>
-<div class="mb-4d">
-<ul class="list-unstyled nav nav-meta nav-meta__white">
-<li class="">2020</li>
-<li class=""><a href="../single-movies/single-movies-v2.html">Comedy</a></li>
-<li class="">1hr 55 mins</li>
-</ul>
-</div>
-<div class="d-md-flex">
-<a href="../single-movies/single-movies-v2.html" class="btn btn-primary px-6 py-3d btn-sm mb-3 mb-md-0">WATCH NOW</a>
-<a href="../single-movies/single-movies-v2.html" class="btn btn-outline-light ml-md-4 px-6 py-3d btn-sm">+ PLAYLIST</a>
-</div>
-</div>
-</div>
-</div>
-<div class="bg-img-hero d-flex align-items-center min-h-676rem slider-gradient" style="background-image: url(../../static/img/1920x676/img8.jpg);">
-<div class="container">
-<div class="mx-3 mx-md-5  col-xl-5 px-0">
-<h1 class="display-3 mb-3"><a href="../single-movies/single-movies-v2.html" class="h-w-primary">American Made</a></h1>
-<div class="mb-4d">
-<ul class="list-unstyled nav nav-meta nav-meta__white">
-<li class="">2020</li>
-<li class=""><a href="../single-movies/single-movies-v2.html">Comedy</a></li>
-<li class="">1hr 55 mins</li>
-</ul>
-</div>
-<div class="d-md-flex">
-<a href="../single-movies/single-movies-v2.html" class="btn btn-primary px-6 py-3d btn-sm mb-3 mb-md-0">WATCH NOW</a>
-<a href="../single-movies/single-movies-v2.html" class="btn btn-outline-light ml-md-4 px-6 py-3d btn-sm">+ PLAYLIST</a>
-</div>
-</div>
-</div>
-</div>
+{% endfor %}
 </div>
 <div class="d-none d-xl-flex position-xl-absolute col-xl-6 mr-3 right-0 bottom-0  mb-xl-12  slider-m-0 flex-column">
 <h4 class="text-white font-size-22 font-weight-normal mb-3">Todays Recomendation</h4>
@@ -342,30 +207,11 @@
                             }
                         }]
                     }'>
+ {% for film in today_recomendation %}
 <div class="my-1d" style="cursor: pointer;">
-<img class="img-fluid" style="width:204px; height:120px;" src="../../static/img/204x120/img1.jpg" alt="Image Description">
+ <img class="img-fluid" style="width:140px; height:180px;" src="{{ film.image.url }}" alt="Image Description">
 </div>
-<div class="my-1d" style="cursor: pointer;">
-<img class="img-fluid" style="width:204px; height:120px;" src="../../static/img/204x120/img2.jpg" alt="Image Description">
-</div>
-<div class="my-1d" style="cursor: pointer;">
-<img class="img-fluid" style="width:204px; height:120px;" src="../../static/img/204x120/img3.jpg" alt="Image Description">
-</div>
-<div class="my-1d" style="cursor: pointer;">
-<img class="img-fluid" style="width:204px; height:120px;" src="../../static/img/204x120/img4.jpg" alt="Image Description">
-</div>
-<div class="my-1d" style="cursor: pointer;">
-<img class="img-fluid" style="width:204px; height:120px;" src="../../static/img/204x120/img5.jpg" alt="Image Description">
-</div>
-<div class="my-1d" style="cursor: pointer;">
-<img class="img-fluid" style="width:204px; height:120px;" src="../../static/img/204x120/img6.jpg" alt="Image Description">
-</div>
-<div class="my-1d" style="cursor: pointer;">
-<img class="img-fluid" style="width:204px; height:120px;" src="../../static/img/204x120/img7.jpg" alt="Image Description">
-</div>
-<div class="my-1d" style="cursor: pointer;">
-<img class="img-fluid" style="width:204px; height:120px;" src="../../static/img/204x120/img8.jpg" alt="Image Description">
-</div>
+{% endfor %}
 </div>
 </div>
 </div>
@@ -375,7 +221,7 @@
 <div class="row mb-xl-5">
 <div class="col-xl-auto d-flex">
 <header class="max-w-370 mt-auto mb-8 title-dash">
-<h3 class="display-7 text-white mb-3 pr-xl-12 font-weight-semi-bold">Popular Movies to Watch Now</h3>
+<h3 class="display-7 text-white mb-3 pr-xl-12 font-weight-semi-bold">Популярні фільми для перегляду</h3>
 <div class="border-top border-g-1200-op mr-xl-7">
 <a href="../archive/movies.html" class="h-w-primary text-gray-1300 font-size-13 d-inline-flex align-items-center pt-2 font-secondary font-weight-medium">
 </a>
@@ -384,296 +230,42 @@
 </div>
 <div class="col">
 <div class="row row-cols-2 row-cols-md-5">
+  {% for film in max_rating %}
 <div class="col mb-5 mb-xl-0">
 <div class="product">
 <div class="product-image mb-2">
-<a href="../single-movies/single-movies-v2.html" class="d-inline-block position-relative stretched-link"><img class="img-fluid" src="../../static/img/174x260/img1.jpg" alt="Image Description"></a>
+<a href="{% url 'single' film.slug %}" class="d-inline-block position-relative stretched-link"><img class="img-fluid" src="{{ film.image.url }}" alt="Image Description"></a>
 </div>
+
 <div class="product-meta font-size-12 mb-1">
-<span><a href="../single-movies/single-movies-v2.html" class="h-g-primary">2020</a></span>
-<span><a href="../single-movies/single-movies-v2.html" class="h-g-primary">Action</a></span>
-<span><a href="../single-movies/single-movies-v2.html" class="h-g-primary">Comedy</a></span>
-<span><a href="../single-movies/single-movies-v2.html" class="h-g-primary">Mystery</a></span>
+<span><a href="../single-movies/single-movies-v2.html" class="h-g-primary">{{ film.release_year }}</a></span>
+<span><a href="../single-movies/single-movies-v2.html" class="h-g-primary">{% for cat in film.categories.all %}{{ cat.name}} {% endfor %}</a></span>
 </div>
-<div class="product-title font-weight-bold font-size-1"><a href="../single-movies/single-movies-v2.html">Delta Bravo</a></div>
+<div class="product-title font-weight-bold font-size-1"><a href="../single-movies/single-movies-v2.html">{{ film.title }}o</a></div>
 </div>
 </div>
-<div class="col mb-5 mb-xl-0">
-<div class="product">
-<div class="product-image mb-2">
-<a href="../single-movies/single-movies-v2.html" class="d-inline-block position-relative stretched-link"><img class="img-fluid" src="../../static/img/174x260/img2.jpg" alt="Image Description"></a>
-</div>
-<div class="product-meta font-size-12 mb-1">
-<span><a href="../single-movies/single-movies-v2.html" class="h-g-primary">2020</a></span>
-<span><a href="../single-movies/single-movies-v2.html" class="h-g-primary">Action</a></span>
-<span><a href="../single-movies/single-movies-v2.html" class="h-g-primary">Comedy</a></span>
-<span><a href="../single-movies/single-movies-v2.html" class="h-g-primary">Mystery</a></span>
-</div>
-<div class="product-title font-weight-bold font-size-1"><a href="../single-movies/single-movies-v2.html">Mad</a></div>
+ {% endfor %}
 </div>
 </div>
-<div class="col mb-5 mb-xl-0">
-<div class="product">
-<div class="product-image mb-2">
-<a href="../single-movies/single-movies-v2.html" class="d-inline-block position-relative stretched-link"><img class="img-fluid" src="../../static/img/174x260/img3.jpg" alt="Image Description"></a>
-</div>
-<div class="product-meta font-size-12 mb-1">
-<span><a href="../single-movies/single-movies-v2.html" class="h-g-primary">2020</a></span>
-<span><a href="../single-movies/single-movies-v2.html" class="h-g-primary">Action</a></span>
-<span><a href="../single-movies/single-movies-v2.html" class="h-g-primary">Comedy</a></span>
-<span><a href="../single-movies/single-movies-v2.html" class="h-g-primary">Mystery</a></span>
-</div>
-<div class="product-title font-weight-bold font-size-1"><a href="../single-movies/single-movies-v2.html">Oh Lucy</a></div>
-</div>
-</div>
-<div class="col mb-5 mb-xl-0">
-<div class="product">
-<div class="product-image mb-2">
-<a href="../single-movies/single-movies-v2.html" class="d-inline-block position-relative stretched-link"><img class="img-fluid" src="../../static/img/174x260/img4.jpg" alt="Image Description"></a>
-</div>
-<div class="product-meta font-size-12 mb-1">
-<span><a href="../single-movies/single-movies-v2.html" class="h-g-primary">2020</a></span>
-<span><a href="../single-movies/single-movies-v2.html" class="h-g-primary">Action</a></span>
-<span><a href="../single-movies/single-movies-v2.html" class="h-g-primary">Comedy</a></span>
-<span><a href="../single-movies/single-movies-v2.html" class="h-g-primary">Mystery</a></span>
- </div>
-<div class="product-title font-weight-bold font-size-1"><a href="../single-movies/single-movies-v2.html">Euphoria</a></div>
-</div>
-</div>
-<div class="col mb-5 mb-xl-0">
-<div class="product">
-<div class="product-image mb-2">
-<a href="../single-movies/single-movies-v2.html" class="d-inline-block position-relative stretched-link"><img class="img-fluid" src="../../static/img/174x260/img5.jpg" alt="Image Description"></a>
-</div>
-<div class="product-meta font-size-12 mb-1">
-<span><a href="../single-movies/single-movies-v2.html" class="h-g-primary">2020</a></span>
-<span><a href="../single-movies/single-movies-v2.html" class="h-g-primary">Action</a></span>
-<span><a href="../single-movies/single-movies-v2.html" class="h-g-primary">Comedy</a></span>
-<span><a href="../single-movies/single-movies-v2.html" class="h-g-primary">Mystery</a></span>
-</div>
-<div class="product-title font-weight-bold font-size-1"><a href="../single-movies/single-movies-v2.html">Black Mirror</a></div>
-</div>
-</div>
-</div>
-</div>
-</div>
+
 <div class="row row-cols-md-5 row-cols-xl">
+  {% for film in max_rating2 %}
 <div class="col-6 col-xl mb-5 mb-xl-0">
 <div class="product">
 <div class="product-image mb-2">
-<a href="../single-movies/single-movies-v2.html" class="d-inline-block position-relative stretched-link">
-<span class="position-absolute px-2d line-height-lg bg-primary rounded content-centered-x z-index-2 mt-n2 text-white font-size-12">Featured</span>
-<img class="img-fluid" src="../../static/img/174x260/img10.jpg" alt="Image Description">
+<a href="{% url 'single' film.slug %}" class="d-inline-block position-relative stretched-link">
+<span class="position-absolute px-2d line-height-lg bg-primary rounded content-centered-x z-index-2 mt-n2 text-white font-size-12">Рекомендовані</span>
+<img class="img-fluid" src="{{ film.image.url }}" alt="Image Description">
 </a>
 </div>
 <div class="product-meta font-size-12 mb-1">
-<span><a href="../single-movies/single-movies-v2.html" class="h-g-primary">2020</a></span>
-<span><a href="../single-movies/single-movies-v2.html" class="h-g-primary">Action</a></span>
-<span><a href="../single-movies/single-movies-v2.html" class="h-g-primary">Comedy</a></span>
-<span><a href="../single-movies/single-movies-v2.html" class="h-g-primary">Mystery</a></span>
+<span><a href="../single-movies/single-movies-v2.html" class="h-g-primary">{{ film.release_year }}</a></span>
+<span><a href="../single-movies/single-movies-v2.html" class="h-g-primary">{% for cat in film.categories.all %}{{ cat.name}} {% endfor%}</a></span>
 </div>
-<div class="product-title font-weight-bold font-size-1"><a href="../single-movies/single-movies-v2.html">The Convenient Groom</a></div>
+<div class="product-title font-weight-bold font-size-1"><a href="../single-movies/single-movies-v2.html">{{ film.title }}</a></div>
 </div>
 </div>
-<div class="col-6 col-xl mb-5 mb-xl-0">
-<div class="product">
-<div class="product-image mb-2">
-<a href="../single-movies/single-movies-v2.html" class="d-inline-block position-relative stretched-link">
-<span class="position-absolute px-2d line-height-lg bg-primary rounded content-centered-x z-index-2 mt-n2 text-white font-size-12">Featured</span>
-<img class="img-fluid" src="../../static/img/174x260/img11.jpg" alt="Image Description">
-</a>
-</div>
-<div class="product-meta font-size-12 mb-1">
-<span><a href="../single-movies/single-movies-v2.html" class="h-g-primary">2020</a></span>
-<span><a href="../single-movies/single-movies-v2.html" class="h-g-primary">Action</a></span>
-<span><a href="../single-movies/single-movies-v2.html" class="h-g-primary">Comedy</a></span>
-<span><a href="../single-movies/single-movies-v2.html" class="h-g-primary">Mystery</a></span>
-</div>
-<div class="product-title font-weight-bold font-size-1"><a href="../single-movies/single-movies-v2.html">Paradigm Lost</a></div>
-</div>
-</div>
-<div class="col-6 col-xl mb-5 mb-xl-0">
-<div class="product">
-<div class="product-image mb-2">
-<a href="../single-movies/single-movies-v2.html" class="d-inline-block position-relative stretched-link">
-<span class="position-absolute px-2d line-height-lg bg-primary rounded content-centered-x z-index-2 mt-n2 text-white font-size-12">Featured</span>
-<img class="img-fluid" src="../../static/img/174x260/img12.jpg" alt="Image Description">
-</a>
-</div>
-<div class="product-meta font-size-12 mb-1">
-<span><a href="../single-movies/single-movies-v2.html" class="h-g-primary">2020</a></span>
-<span><a href="../single-movies/single-movies-v2.html" class="h-g-primary">Action</a></span>
-<span><a href="../single-movies/single-movies-v2.html" class="h-g-primary">Comedy</a></span>
-<span><a href="../single-movies/single-movies-v2.html" class="h-g-primary">Mystery</a></span>
-</div>
-<div class="product-title font-weight-bold font-size-1"><a href="../single-movies/single-movies-v2.html">Pacific Rim: Uprising</a></div>
-</div>
-</div>
-<div class="col-6 col-xl mb-5 mb-xl-0">
-<div class="product">
-<div class="product-image mb-2">
-<a href="../single-movies/single-movies-v2.html" class="d-inline-block position-relative stretched-link"><img class="img-fluid" src="../../static/img/174x260/img6.jpg" alt="Image Description"></a>
-</div>
-<div class="product-meta font-size-12 mb-1">
-<span><a href="../single-movies/single-movies-v2.html" class="h-g-primary">2020</a></span>
-<span><a href="../single-movies/single-movies-v2.html" class="h-g-primary">Action</a></span>
-<span><a href="../single-movies/single-movies-v2.html" class="h-g-primary">Comedy</a></span>
-<span><a href="../single-movies/single-movies-v2.html" class="h-g-primary">Mystery</a></span>
-</div>
-<div class="product-title font-weight-bold font-size-1"><a href="../single-movies/single-movies-v2.html">Dirt</a></div>
-</div>
-</div>
-<div class="col-6 col-xl mb-5 mb-xl-0">
-<div class="product">
-<div class="product-image mb-2">
-<a href="../single-movies/single-movies-v2.html" class="d-inline-block position-relative stretched-link">
-<span class="position-absolute px-2d line-height-lg bg-primary rounded content-centered-x z-index-2 mt-n2 text-white font-size-12">Featured</span>
-<img class="img-fluid" src="../../static/img/174x260/img7.jpg" alt="Image Description">
-</a>
- </div>
-<div class="product-meta font-size-12 mb-1">
-<span><a href="../single-movies/single-movies-v2.html" class="h-g-primary">2020</a></span>
-<span><a href="../single-movies/single-movies-v2.html" class="h-g-primary">Action</a></span>
-<span><a href="../single-movies/single-movies-v2.html" class="h-g-primary">Comedy</a></span>
-<span><a href="../single-movies/single-movies-v2.html" class="h-g-primary">Mystery</a></span>
-</div>
-<div class="product-title font-weight-bold font-size-1"><a href="../single-movies/single-movies-v2.html">Fantastic Beasts and Where to Find Them</a></div>
-</div>
-</div>
-<div class="col-6 col-xl mb-5 mb-xl-0">
-<div class="product">
-<div class="product-image mb-2">
-<a href="../single-movies/single-movies-v2.html" class="d-inline-block position-relative stretched-link"><img class="img-fluid" src="../../static/img/174x260/img8.jpg" alt="Image Description"></a>
-</div>
-<div class="product-meta font-size-12 mb-1">
-<span><a href="../single-movies/single-movies-v2.html" class="h-g-primary">2020</a></span>
-<span><a href="../single-movies/single-movies-v2.html" class="h-g-primary">Action</a></span>
-<span><a href="../single-movies/single-movies-v2.html" class="h-g-primary">Comedy</a></span>
-<span><a href="../single-movies/single-movies-v2.html" class="h-g-primary">Mystery</a></span>
-</div>
-<div class="product-title font-weight-bold font-size-1"><a href="../single-movies/single-movies-v2.html">Sunday</a></div>
-</div>
-</div>
-<div class="col-6 col-xl mb-5 mb-xl-0">
-<div class="product">
-<div class="product-image mb-2">
-<a href="../single-movies/single-movies-v2.html" class="d-inline-block position-relative stretched-link"><img class="img-fluid" src="../../static/img/174x260/img9.jpg" alt="Image Description"></a>
-</div>
-<div class="product-meta font-size-12 mb-1">
-<span><a href="../single-movies/single-movies-v2.html" class="h-g-primary">2020</a></span>
-<span><a href="../single-movies/single-movies-v2.html" class="h-g-primary">Action</a></span>
-<span><a href="../single-movies/single-movies-v2.html" class="h-g-primary">Comedy</a></span>
-<span><a href="../single-movies/single-movies-v2.html" class="h-g-primary">Mystery</a></span>
-</div>
-<div class="product-title font-weight-bold font-size-1"><a href="../single-movies/single-movies-v2.html">Bpm</a></div>
-</div>
-</div>
-</div>
-</div>
-<div class="collapse mt-6" id="collapseExample">
-<div class="container px-md-4">
-<div class="row row-cols-md-5 row-cols-xl">
-<div class="col-6 col-xl mb-5 mb-xl-0">
-<div class="product">
-<div class="product-image mb-2">
-<a href="../single-movies/single-movies-v2.html" class="d-inline-block position-relative stretched-link"><img class="img-fluid" src="../../static/img/174x260/img1.jpg" alt="Image Description"></a>
-</div>
-<div class="product-meta font-size-12 mb-1">
-<span><a href="../single-movies/single-movies-v2.html" class="h-g-primary">2020</a></span>
-<span><a href="../single-movies/single-movies-v2.html" class="h-g-primary">Action</a></span>
-<span><a href="../single-movies/single-movies-v2.html" class="h-g-primary">Comedy</a></span>
-<span><a href="../single-movies/single-movies-v2.html" class="h-g-primary">Mystery</a></span>
-</div>
-<div class="product-title font-weight-bold font-size-1"><a href="../single-movies/single-movies-v2.html">The Convenient Groom</a></div>
-</div>
-</div>
-<div class="col-6 col-xl mb-5 mb-xl-0">
-<div class="product">
-<div class="product-image mb-2">
-<a href="../single-movies/single-movies-v2.html" class="d-inline-block position-relative stretched-link"><img class="img-fluid" src="../../static/img/174x260/img2.jpg" alt="Image Description"></a>
-</div>
-<div class="product-meta font-size-12 mb-1">
-<span><a href="../single-movies/single-movies-v2.html" class="h-g-primary">2020</a></span>
-<span><a href="../single-movies/single-movies-v2.html" class="h-g-primary">Action</a></span>
-<span><a href="../single-movies/single-movies-v2.html" class="h-g-primary">Comedy</a></span>
-<span><a href="../single-movies/single-movies-v2.html" class="h-g-primary">Mystery</a></span>
-</div>
-<div class="product-title font-weight-bold font-size-1"><a href="../single-movies/single-movies-v2.html">Paradigm Lost</a></div>
-</div>
-</div>
-<div class="col-6 col-xl mb-5 mb-xl-0">
-<div class="product">
-<div class="product-image mb-2">
-<a href="../single-movies/single-movies-v2.html" class="d-inline-block position-relative stretched-link"><img class="img-fluid" src="../../static/img/174x260/img3.jpg" alt="Image Description"></a>
-</div>
-<div class="product-meta font-size-12 mb-1">
-<span><a href="../single-movies/single-movies-v2.html" class="h-g-primary">2020</a></span>
-<span><a href="../single-movies/single-movies-v2.html" class="h-g-primary">Action</a></span>
-<span><a href="../single-movies/single-movies-v2.html" class="h-g-primary">Comedy</a></span>
-<span><a href="../single-movies/single-movies-v2.html" class="h-g-primary">Mystery</a></span>
-</div>
-<div class="product-title font-weight-bold font-size-1"><a href="../single-movies/single-movies-v2.html">Pacific Rim: Uprising</a></div>
-</div>
-</div>
-<div class="col-6 col-xl mb-5 mb-xl-0">
-<div class="product">
-<div class="product-image mb-2">
-<a href="../single-movies/single-movies-v2.html" class="d-inline-block position-relative stretched-link"><img class="img-fluid" src="../../static/img/174x260/img4.jpg" alt="Image Description"></a>
-</div>
-<div class="product-meta font-size-12 mb-1">
-<span><a href="../single-movies/single-movies-v2.html" class="h-g-primary">2020</a></span>
- <span><a href="../single-movies/single-movies-v2.html" class="h-g-primary">Action</a></span>
-<span><a href="../single-movies/single-movies-v2.html" class="h-g-primary">Comedy</a></span>
-<span><a href="../single-movies/single-movies-v2.html" class="h-g-primary">Mystery</a></span>
-</div>
-<div class="product-title font-weight-bold font-size-1"><a href="../single-movies/single-movies-v2.html">Dirt</a></div>
-</div>
-</div>
-<div class="col-6 col-xl mb-5 mb-xl-0">
-<div class="product">
-<div class="product-image mb-2">
-<a href="../single-movies/single-movies-v2.html" class="d-inline-block position-relative stretched-link"><img class="img-fluid" src="../../static/img/174x260/img5.jpg" alt="Image Description"></a>
-</div>
-<div class="product-meta font-size-12 mb-1">
-<span><a href="../single-movies/single-movies-v2.html" class="h-g-primary">2020</a></span>
-<span><a href="../single-movies/single-movies-v2.html" class="h-g-primary">Action</a></span>
-<span><a href="../single-movies/single-movies-v2.html" class="h-g-primary">Comedy</a></span>
-<span><a href="../single-movies/single-movies-v2.html" class="h-g-primary">Mystery</a></span>
-</div>
-<div class="product-title font-weight-bold font-size-1"><a href="../single-movies/single-movies-v2.html">Fantastic Beasts and Where to Find Them</a></div>
-</div>
-</div>
-<div class="col-6 col-xl mb-5 mb-xl-0">
-<div class="product">
-<div class="product-image mb-2">
-<a href="../single-movies/single-movies-v2.html" class="d-inline-block position-relative stretched-link"><img class="img-fluid" src="../../static/img/174x260/img6.jpg" alt="Image Description"></a>
-</div>
-<div class="product-meta font-size-12 mb-1">
-<span><a href="../single-movies/single-movies-v2.html" class="h-g-primary">2020</a></span>
-<span><a href="../single-movies/single-movies-v2.html" class="h-g-primary">Action</a></span>
-<span><a href="../single-movies/single-movies-v2.html" class="h-g-primary">Comedy</a></span>
-<span><a href="../single-movies/single-movies-v2.html" class="h-g-primary">Mystery</a></span>
-</div>
-<div class="product-title font-weight-bold font-size-1"><a href="../single-movies/single-movies-v2.html">Sunday</a></div>
-</div>
-</div>
-<div class="col-6 col-xl mb-5 mb-xl-0">
-<div class="product">
-<div class="product-image mb-2">
-<a href="../single-movies/single-movies-v2.html" class="d-inline-block position-relative stretched-link"><img class="img-fluid" src="../../static/img/174x260/img7.jpg" alt="Image Description"></a>
-</div>
-<div class="product-meta font-size-12 mb-1">
-<span><a href="../single-movies/single-movies-v2.html" class="h-g-primary">2020</a></span>
-<span><a href="../single-movies/single-movies-v2.html" class="h-g-primary">Action</a></span>
-<span><a href="../single-movies/single-movies-v2.html" class="h-g-primary">Comedy</a></span>
-<span><a href="../single-movies/single-movies-v2.html" class="h-g-primary">Mystery</a></span>
-</div>
-<div class="product-title font-weight-bold font-size-1"><a href="../single-movies/single-movies-v2.html">Bpm</a></div>
-</div>
-</div>
-</div>
-</div>
-</div>
+{% endfor %}
 <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-hidden="true">
 <div class="modal-dialog modal-sm" role="document">
 <div class="modal-content">
@@ -981,8 +573,8 @@ Static Pages
 </a>
 <div id="sidebarNav4Collapse" class="collapse" data-parent="#sidebarNavExample3">
 <div id="sidebarNav4" class="navbar-nav align-items-start flex-column">
-<a class="dropdown-item" href="../static/contact.html">Contact Us</a>
-<a class="dropdown-item" href="../static/404.html">404</a>
+<a class="dropdown-item" href="{% static 'contact.html' %}">Contact Us</a>
+<a class="dropdown-item" href="{% static '404.html' %}">404</a>
 </div>
 </div>
 </div>
@@ -1028,30 +620,30 @@ Docs
 </a>
 
 
-<script src="../../static/vendor/jquery/dist/jquery.min.js"></script>
-<script src="../../static/vendor/jquery-migrate/dist/jquery-migrate.min.js"></script>
-<script src="../../static/vendor/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<script src="{% static 'vendor/jquery/dist/jquery.min.js' %}"></script>
+<script src="{% static 'vendor/jquery-migrate/dist/jquery-migrate.min.js' %}"></script>
+<script src="{% static 'vendor/bootstrap/dist/js/bootstrap.bundle.min.js' %}"></script>
 
-<script src="../../static/vendor/hs-header/dist/hs-header.min.js"></script>
-<script src="../../static/vendor/hs-go-to/dist/hs-go-to.min.js"></script>
-<script src="../../static/vendor/hs-unfold/dist/hs-unfold.min.js"></script>
-<script src="../../static/vendor/hs-mega-menu/dist/hs-mega-menu.min.js"></script>
-<script src="../../static/vendor/hs-show-animation/dist/hs-show-animation.min.js"></script>
-<script src="../../static/vendor/hs-sticky-block/dist/hs-sticky-block.min.js"></script>
-<script src="../../static/vendor/hs-counter/dist/hs-counter.min.js"></script>
-<script src="../../static/vendor/appear.js"></script>
-<script src="../../static/vendor/cubeportfolio/js/jquery.cubeportfolio.min.js"></script>
-<script src="../../static/vendor/jquery-validation/dist/jquery.validate.min.js"></script>
-<script src="../../static/vendor/dzsparallaxer/dzsparallaxer.js"></script>
-<script src="../../static/vendor/aos/dist/aos.js"></script>
-<script src="../../static/vendor/slick-carousel/slick/slick.js"></script>
-<script src="../../static/vendor/fancybox/dist/jquery.fancybox.min.js"></script>
+<script src="{% static 'vendor/hs-header/dist/hs-header.min.js' %}"></script>
+<script src="{% static 'vendor/hs-go-to/dist/hs-go-to.min.js' %}"></script>
+<script src="{% static 'vendor/hs-unfold/dist/hs-unfold.min.js' %}"></script>
+<script src="{% static 'vendor/hs-mega-menu/dist/hs-mega-menu.min.js' %}"></script>
+<script src="{% static 'vendor/hs-show-animation/dist/hs-show-animation.min.js' %}"></script>
+<script src="{% static 'vendor/hs-sticky-block/dist/hs-sticky-block.min.js' %}"></script>
+<script src="{% static 'vendor/hs-counter/dist/hs-counter.min.js' %}"></script>
+<script src="{% static 'vendor/appear.js' %}"></script>
+<script src="{% static 'vendor/cubeportfolio/js/jquery.cubeportfolio.min.js' %}"></script>
+<script src="{% static 'vendor/jquery-validation/dist/jquery.validate.min.js' %}"></script>
+<script src="{% static 'vendor/dzsparallaxer/dzsparallaxer.js' %}"></script>
+<script src="{% static 'vendor/aos/dist/aos.js' %}"></script>
+<script src="{% static 'vendor/slick-carousel/slick/slick.js' %}"></script>
+<script src="{% static 'vendor/fancybox/dist/jquery.fancybox.min.js' %}"></script>
 
-<script src="../../static/js/hs.core.js"></script>
-<script src="../../static/js/hs.validation.js"></script>
-<script src="../../static/js/hs.cubeportfolio.js"></script>
-<script src="../../static/js/hs.slick-carousel.js"></script>
-<script src="../../static/js/hs.fancybox.js"></script>
+<script src="{% static 'js/hs.core.js' %}"></script>
+<script src="{% static 'js/hs.validation.js' %}"></script>
+<script src="{% static 'js/hs.cubeportfolio.js' %}"></script>
+<script src="{% static 'js/hs.slick-carousel.js' %}"></script>
+<script src="{% static 'js/hs.fancybox.js' %}"></script>
 
 <script>
         $(document).on('ready', function () {
@@ -1153,7 +745,7 @@ Docs
     </script>
 
 <script>
-        if (/MSIE \d|Trident.*rv:/.test(navigator.userAgent)) document.write('<script src="../../static/vendor/polifills.js"><\/script>');
+        if (/MSIE \d|Trident.*rv:/.test(navigator.userAgent)) document.write('<script src="{% static 'vendor/polifills.js' %}"><\/script>');
     </script>
 </body>
 </html>

@@ -7,10 +7,11 @@ import cyrtranslit
 import requests
 from bs4 import BeautifulSoup
 from django.utils.text import slugify
+from django.conf import settings
 
-from kinozal.models import Category, Director, Actor, Film, Comment
+from kinozal.models import Category, Director, Actor, Film, Comment, Country
 
-
+counter = 0
 TIME_OUT = 10
 
 
@@ -25,8 +26,6 @@ def upload_image_to_local_media(
         file.write(img_response.content)
 
 
-
-
 @atomic
 def process(html_string: str, url: str):
     soup = BeautifulSoup(html_string, 'html.parser')
@@ -39,7 +38,7 @@ def process(html_string: str, url: str):
         release_year = release_year[1].text.strip()
 
         country = soup.select(".fi-item .fi-desc")
-        country = country[2].text.strip()
+        country = country[2].text.strip().split(',')
 
         duration = soup.select(".fi-item")
         if duration[6].text.strip().startswith('Тривалість:'):
@@ -52,7 +51,7 @@ def process(html_string: str, url: str):
             rating = rating[8].text.strip()[0:3]
         else:
             rating = rating[9].text.strip()[0:3]
-        print('RATING', rating)
+
         description = soup.find('div', class_="full-text clearfix")
         description = description.text.strip()
 
@@ -62,6 +61,14 @@ def process(html_string: str, url: str):
                 image = img.get('href')
             else:
                 image = f'https://uakino.club{img.get("href")}'
+        image_nam = image.split('/')[-1].split('/')[0].replace(' ',
+                                                               '-') + '.jpg'
+        print('Uploading images')
+
+        upload_image_to_local_media(
+            image,
+            image_nam.lower(),
+        )
 
         movie_link = soup.select('#pre')
         movie_link = [movie.get('src') for movie in movie_link]
@@ -75,12 +82,11 @@ def process(html_string: str, url: str):
             defaults={
                 'base_url': url,
                 'title': title,
+                'image': f'images/{image_nam}',
                 'release_year': release_year,
-                'country': country,
                 'duration': duration,
                 'rating': rating,
                 'description': description,
-                'image': image,
                 'movie_link': movie_link[0],
                 'trailer_link': trailer_link,
             },
@@ -88,11 +94,17 @@ def process(html_string: str, url: str):
                          'me')
         )
 
+        for count in country:
+            countr, _ = Country.objects.get_or_create(country=count.strip())
+
+            film.country.add(countr)
+
         category = soup.select(".fi-item .fi-desc")
         category = category[3].text.strip().split(',')
         for categor in category:
-            cat, create = Category.objects.get_or_create(name=categor.strip(),
-                                                slug=categor.strip().lower())
+            cat, create = Category.objects.get_or_create(
+                name=categor.strip(), slug=categor.strip().lower()
+            )
 
             film.categories.add(cat)
 
@@ -119,16 +131,10 @@ def process(html_string: str, url: str):
 
             film.comments.add(comm)
 
-        image_name = title.split('/')[-1].split('/')[0].replace(' ', '-') + '.jpg'
-        print('Uploading images')
-
-        upload_image_to_local_media(
-            image,
-            image_name.lower(),
-        )
-
         print('Done')
-
+        global counter
+        counter += 1
+        print(counter)
     except Exception as error:
         exc_type, exc_obj, exc_tb = sys.exc_info()
         print('Parsing Error', error, exc_tb.tb_lineno)
@@ -141,9 +147,11 @@ def worker(queue: Queue):
         try:
             with requests.Session() as session:
                 response = session.get(
-                    url,
+
+                    url.rstrip(),
                     allow_redirects=True,
-                    timeout=TIME_OUT
+                    timeout=TIME_OUT,
+                    headers={'User-Agent': 'Custom'}
                 )
                 print(response.status_code)
 
@@ -171,20 +179,13 @@ def worker(queue: Queue):
 
 
 def main():
-    film_url = 'https://uakino.club/filmy/page/1/'
 
-    with requests.Session() as links_session:
-        response = links_session.get(film_url)
-
-    soup = BeautifulSoup(response.text, 'html.parser')
-
-    links = soup.find_all('div', class_="movie-item short-item")
-    links = [urls.find('a', class_="movie-title").get('href').strip()
-             for urls in links]
+    with open(f'{settings.BASE_DIR}/kinozal/links.txt') as file:
+        links = file.readlines()
 
     queue = Queue()
 
-    for url in links:
+    for url in links[51:250]:
         queue.put(url)
 
     worker_number = 20
