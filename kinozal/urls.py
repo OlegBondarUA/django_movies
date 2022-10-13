@@ -15,10 +15,10 @@ Including another URLconf
 """
 
 from django.urls import path
-from . views import index, movies, single_movies
-
+from . import views
 urlpatterns = [
-    path('', index, name='index'),
-    path('movies/', movies, name='movies'),
-    path('single-movies-v7/<slug:slug>/', single_movies, name='single'),
+    path('', views.IndexViews.as_view(), name='index'),
+    path('movies/', views.MoviesOlView.as_view(), name='movies'),
+    path('movies/<slug:slug>/', views.MoviesCategoryViews.as_view(), name='category'),
+    path('single-movies/<slug:slug>/', views.SingleMoviesViews.as_view(), name='single')
 ]

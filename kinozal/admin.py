@@ -17,7 +17,8 @@ class FilmAdmin(SummernoteModelAdmin):
             'fields': (
                 'base_url',
                 ('title', 'slug'),
-                ('image', ),
+                ('image',),
+                ('background',),
                 ('description',),
                 ('rating', 'duration', 'release_year'),
                 ('movie_link', 'trailer_link'),
@@ -32,7 +33,7 @@ class FilmAdmin(SummernoteModelAdmin):
 
 
 class CategoryAdmin(admin.ModelAdmin):
-    list_display = ('name', 'total_films')
+    list_display = ('name', 'slug', 'total_films')
     search_fields = ('name',)
 
     def get_queryset(self, request):

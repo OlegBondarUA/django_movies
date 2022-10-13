@@ -45,6 +45,7 @@ class Film(models.Model):
     movie_link = models.URLField(max_length=255, null=True, blank=True)
     trailer_link = models.URLField(max_length=255, null=True, blank=True)
     data_created = models.DateTimeField(auto_now_add=True)
+    background = models.ImageField(upload_to='background', null=True, blank=True)
 
     country = models.ManyToManyField(Country, related_name='films')
     categories = models.ManyToManyField(Category, related_name='films')
