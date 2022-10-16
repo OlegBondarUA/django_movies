@@ -47,8 +47,10 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     # third party
     'django_summernote',
+    'widget_tweaks',
     # my apps
     'kinozal.apps.KinozalConfig',
+    'website',
 ]
 
 MIDDLEWARE = [
