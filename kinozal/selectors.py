@@ -22,12 +22,6 @@ def categories_selector():
         films__in=films).distinct().order_by('name')
 
 
-# def categories2_selector(from_category):
-#     films = Film.objects.all()
-#     return Category.objects.filter(
-#         films__in=films).distinct().order_by('name')[:from_category]
-
-
 def years_selector():
     return Film.objects.values_list(
         'release_year', flat=True).distinct().order_by('-release_year')
@@ -36,11 +30,6 @@ def years_selector():
 def films_category_selector():
     return Film.objects.prefetch_related(
         'categories',).filter(categories='slug')
-
-
-# def film_release_year_selector(film_ids: list[int]) -> QuerySet[Film]:
-#     return Film.objects.filter(
-#         films__id__in=film_ids).distinct().order_by('release_year')
 
 
 def related_film_selector(film: Film):

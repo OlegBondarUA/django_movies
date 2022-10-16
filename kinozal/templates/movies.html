@@ -192,7 +192,7 @@
 												<li class="pr-1 pb-1">
 													<div class="h-bg-3 bg-gray-5100 px-2 py-2 d-inline-block">
 														{% for category in categories %}
-														<a href="{% url 'category' category.slug %}" class="mx-1">{{ category.name }} ,</a>
+														<a href="{% url 'category' category.slug %}" class="mx-1">{{ category.name }} |</a>
 														{% endfor %}
 													</div>
 												</li>
@@ -206,7 +206,7 @@
 										<li class="pr-1 pb-1">
 											<div class="h-bg-3 bg-gray-5100 px-2 py-2 d-inline-block">
 												{% for year in years %}
-												<a href="#" class="mx-1">| {{ year }} |</a>
+												<a href="{{request.path}}?release_year={{ year }}" class="mx-1">| {{ year }} |</a>
 												{% endfor %}
 											</div>
 										</li>
@@ -318,7 +318,7 @@
 													</a>
 												</div>
 												<div class="product-meta font-size-12">
-													<a href="#" class="h-g-primary" tabindex="0">{{ film.release_year}}|</a>
+													<a href="{{request.path}}?release_year={{ film.release_year }}" class="h-g-primary" tabindex="0">{{ film.release_year}}|</a>
 													{% for category in film.categories.all %}
 													<a href="{% url 'category' category.slug %}" class="h-g-primary" tabindex="0">{{ category.name}} |</a>
 													{% endfor %}
@@ -344,7 +344,7 @@
 													</a>
 												</div>
 												<div class="product-meta font-size-12">
-													<a href="#" class="h-g-primary" tabindex="0">{{ film.release_year }}|</a>
+													<a href="{{request.path}}?release_year={{ film.release_year }}" class="h-g-primary" tabindex="0">{{ film.release_year }}|</a>
 													{% for category in film.categories.all %}
 													<a href="{% url 'category' category.slug %}" class="h-g-primary" tabindex="0">{{ category.name }} |</a>
 													{% endfor %}
@@ -370,7 +370,7 @@
 										<div class="col">
 											<div class="px-md-4d mt-2d">
 												<div class="product-meta font-size-12">
-													<a href="#" class="h-g-primary" tabindex="0">{{ film.release_year }}|</a>
+													<a href="{{request.path}}?release_year={{ film.release_year }}" class="h-g-primary" tabindex="0">{{ film.release_year }}|</a>
 													{% for category in film.categories.all %}
 													<a href="{% url 'category' category.slug %}" class="h-g-primary" tabindex="0">{{ category.name }} |</a>
 													{% endfor %}
@@ -404,7 +404,7 @@
 										<div class="col">
 											<div class="px-md-4d mt-2d">
 												<div class="product-meta font-size-12">
-													<a href="#" class="h-g-primary" tabindex="0">{{ film.release_year }}|</a>
+													<a href="{{request.path}}?release_year={{ film.release_year }}" class="h-g-primary" tabindex="0">{{ film.release_year }}|</a>
 													{% for category in film.categories.all %}
 													<a href="{% url 'category' category.slug %}" class="h-g-primary" tabindex="0">{{ category.name }} |</a>
 													{% endfor %}
@@ -442,7 +442,7 @@
 													<div class=" px-md-4d mt-2d d-flex justify-content-between d-md-block border-md-right-dark">
 														<div>
 															<div class="product-meta font-size-12">
-																<a href="#" class="h-g-primary" tabindex="0">{{ film.release_year }}|</a>
+																<a href="{{request.path}}?release_year={{ film.release_year }}" class="h-g-primary" tabindex="0">{{ film.release_year }}|</a>
 																{% for category in film.categories.all %}
 																<a href="{% url 'category' category.slug %}" class="h-g-primary" tabindex="0">{{ category.name }} |</a>
 																{% endfor %}

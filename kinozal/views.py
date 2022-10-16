@@ -41,20 +41,23 @@ class MoviesCategoryViews(ListView):
     paginate_by = 30
 
     def get(self, request, *args, **kwargs):
-        self.release_year = Film.objects.get(name=self.request.GET['release_year'])\
+        self.year = int(self.request.GET['release_year'])\
             if self.request.GET.get('release_year') else None
         return super().get(request, *args, **kwargs)
 
     def get_queryset(self):
-        _filter = {'categories__slug': self.kwargs.get('slug')}
+        _filter = {
+            'categories__slug': self.kwargs.get('slug')
+        }
 
-        if self.release_year:
-            _filter['release_year__name'] = self.release_year.name
+        if self.year:
+            _filter['release_year'] = self.year
 
         return Film.objects.prefetch_related('categories').filter(**_filter)
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
+
         context |= {
             'years': selectors.years_selector(),
             'categories': selectors.categories_selector(),
@@ -67,7 +70,7 @@ class MoviesOlView(ListView):
     template_name = 'movies.html'
     model = Film
     paginate_by = 30
-    queryset = Film.objects.all()
+    queryset = Film.objects.prefetch_related('categories', )
     context_object_name = 'films_category'
 
     def get_context_data(self, *, object_list=None, **kwargs):
