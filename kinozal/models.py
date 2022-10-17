@@ -36,11 +36,13 @@ class Country(models.Model):
 class Film(models.Model):
     base_url = models.URLField(max_length=512, null=True, blank=True)
     title = models.CharField(max_length=255)
+    title_en = models.CharField(max_length=255, default='')
     slug = models.SlugField(max_length=255, unique=True)
     release_year = models.PositiveSmallIntegerField(null=True)
     duration = models.CharField(max_length=50, null=True)
     rating = models.FloatField(max_length=5, null=True)
     description = models.TextField(default='')
+    description_en = models.TextField(default='')
     image = models.ImageField(upload_to='images', null=True, blank=True)
     movie_link = models.URLField(max_length=255, null=True, blank=True)
     trailer_link = models.URLField(max_length=255, null=True, blank=True)

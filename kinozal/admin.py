@@ -2,11 +2,13 @@ from django.contrib import admin
 from django.utils.html import format_html
 from django_summernote.admin import SummernoteModelAdmin
 
+from .actions import translate_film
 from . models import Category, Director, Actor, Film, Comment, Country
 
 
 class FilmAdmin(SummernoteModelAdmin):
-    summernote_fields = ('description',)
+    actions = (translate_film,)
+    summernote_fields = ('description', 'description_en')
     list_display = ('title', 'picture')
     prepopulated_fields = {'slug': ('title',)}
     search_fields = ('title', 'release_year')
@@ -15,11 +17,12 @@ class FilmAdmin(SummernoteModelAdmin):
     fieldsets = (
         (None, {
             'fields': (
-                'base_url',
-                ('title', 'slug'),
+                'base_url', 'slug',
+                ('title', 'title_en'),
                 ('image',),
                 ('background',),
                 ('description',),
+                ('description_en',),
                 ('rating', 'duration', 'release_year'),
                 ('movie_link', 'trailer_link'),
             )

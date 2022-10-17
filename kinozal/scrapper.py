@@ -1,3 +1,4 @@
+import logging
 import sys
 from concurrent.futures import ThreadPoolExecutor
 from queue import Queue
@@ -13,6 +14,8 @@ from kinozal.models import Category, Director, Actor, Film, Comment, Country
 
 counter = 0
 TIME_OUT = 10
+
+logger = logging.getLogger('logit')
 
 
 def upload_image_to_local_media(
@@ -63,7 +66,7 @@ def process(html_string: str, url: str):
                 image = f'https://uakino.club{img.get("href")}'
         image_nam = image.split('/')[-1].split('/')[0].replace(' ',
                                                                '-') + '.jpg'
-        print('Uploading images')
+        logger.debug('Uploading images')
 
         upload_image_to_local_media(
             image,
@@ -131,19 +134,19 @@ def process(html_string: str, url: str):
 
             film.comments.add(comm)
 
-        print('Done')
+        logger.debug('Done')
         global counter
         counter += 1
-        print(counter)
+        logger.debug(counter)
     except Exception as error:
         exc_type, exc_obj, exc_tb = sys.exc_info()
-        print('Parsing Error', error, exc_tb.tb_lineno)
+        logger.error(f'Parsing Error {error} {exc_tb.tb_lineno}')
 
 
 def worker(queue: Queue):
     while True:
         url = queue.get()
-        print('[Working ON]', url)
+        logger.debug(f'[Working ON] {url}')
         try:
             with requests.Session() as session:
                 response = session.get(
@@ -153,10 +156,10 @@ def worker(queue: Queue):
                     timeout=TIME_OUT,
                     headers={'User-Agent': 'Custom'}
                 )
-                print(response.status_code)
+                logger.debug(response.status_code)
 
                 if response.status_code == 404:
-                    print('Page not found', url)
+                    logger.warning(f'Page not found {url}')
                     break
 
                 assert response.status_code in (200, 301, 302), 'Bad response'
@@ -171,7 +174,7 @@ def worker(queue: Queue):
             requests.ConnectionError,
             AssertionError
         ) as error:
-            print('An error happen', error)
+            logger.error(f'An error happen {error}')
             queue.put(url)
 
         if queue.qsize() == 0:

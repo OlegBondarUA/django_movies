@@ -143,3 +143,34 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'verbose': {
+            'format': '[{asctime}] {levelname} {module} {thread:d} {lineno} {message}',
+            'style': '{',
+        },
+        'simple': {
+            'format': '%(levelname)s %(message)s'
+        },
+    },
+    'handlers': {
+        'logit': {
+            'level': 'DEBUG',
+            'class': 'logging.handlers.RotatingFileHandler',
+            'filename': 'loggs/logit.log',
+            'maxBytes': 15728640,  # 1024 * 1024 * 15B = 15MB
+            'backupCount': 3,
+            'formatter': 'verbose',
+        },
+    },
+    'loggers': {
+        'logit': {
+            'handlers': ['logit'],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
+    },
+}

@@ -5,6 +5,7 @@ bs4==0.0.1
 certifi==2022.9.24
 charset-normalizer==2.1.1
 cyrtranslit==1.0
+deep-translator==1.9.0
 Django==4.1.1
 django-debug-toolbar==3.7.0
 django-jazzmin==2.5.0
