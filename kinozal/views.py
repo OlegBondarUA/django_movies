@@ -60,7 +60,6 @@ class MoviesCategoryViews(ListView):
 
         context |= {
             'years': selectors.years_selector(),
-            'categories': selectors.categories_selector(),
             'top_film': selectors.max_rating_selector(10, 15),
         }
         return context
@@ -91,7 +90,6 @@ class MoviesOlView(ListView):
         context = super().get_context_data(**kwargs)
         context |= {
             'years': selectors.years_selector(),
-            'categories': selectors.categories_selector(),
             'top_film': selectors.max_rating_selector(10, 15),
         }
         return context

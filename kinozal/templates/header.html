@@ -57,7 +57,7 @@
 							</li>
 							
 							<li class="hs-has-sub-menu navbar-nav-item">
-								<a class="hs-mega-menu-invoker nav-link nav-link-toggle font-secondary" href="javascript:;" aria-haspopup="true" aria-expanded="false" aria-labelledby="blogSubMenu">Movies</a>
+								<a class="hs-mega-menu-invoker nav-link nav-link-toggle font-secondary" href="{% url 'movies' %}" aria-haspopup="true" aria-expanded="false" aria-labelledby="blogSubMenu">Movies</a>
 								
 								<div class="hs-sub-menu dropdown-menu" aria-labelledby="blogMegaMenu" style="min-width: 230px;">
 									{% for category in search_categories|slice:'10' %}
