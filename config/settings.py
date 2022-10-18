@@ -36,9 +36,6 @@ INTERNAL_IPS = [
 # Application definition
 
 INSTALLED_APPS = [
-    'jazzmin',
-    'debug_toolbar',
-    
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -46,11 +43,16 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     # third party
+    'jazzmin',
     'django_summernote',
+    'debug_toolbar',
     'widget_tweaks',
+    'easy_thumbnails',
     # my apps
     'kinozal.apps.KinozalConfig',
     'website',
+
+    'django_cleanup.apps.CleanupConfig',
 ]
 
 MIDDLEWARE = [
@@ -77,6 +79,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'kinozal.context_processors.categories_menu',
             ],
         },
     },
@@ -172,5 +175,11 @@ LOGGING = {
             'level': 'DEBUG',
             'propagate': True,
         },
+    },
+}
+
+THUMBNAIL_ALIASES = {
+    '': {
+        'avatar': {'size': (152, 228), 'crop': True},
     },
 }
