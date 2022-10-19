@@ -1,4 +1,6 @@
 {% load static %}
+{% load i18n %}
+{% load i18n_switcher %}
 <header id="header" class="header left-aligned-navbar" data-hs-header-options='{
             "fixMoment": 1000,
             "fixEffect": "slide"
@@ -46,27 +48,25 @@
 					</svg>
 				</a>
 				
-				
 				<div id="navBar" class="collapse navbar-collapse order-1 order-xl-0">
 					<div class="navbar-body header-abs-top-inner">
 						<ul class="navbar-nav">
 							
-							<li class="hs-has-mega-menu navbar-nav-item">
-								<a id="homeMegaMenu" class="hs-mega-menu-invoker nav-link font-secondary" href="{% url 'index' %}" aria-haspopup="true" aria-expanded="false">Home</a>
-								<div class="hs-mega-menu dropdown-menu w-100" aria-labelledby="homeMegaMenu"></div>
-							</li>
-							
 							<li class="hs-has-sub-menu navbar-nav-item">
-								<a class="hs-mega-menu-invoker nav-link nav-link-toggle font-secondary" href="{% url 'movies' %}" aria-haspopup="true" aria-expanded="false" aria-labelledby="blogSubMenu">Movies</a>
+								<a class="hs-mega-menu-invoker nav-link nav-link-toggle font-secondary" href="{% url 'movies' %}" aria-haspopup="true" aria-expanded="false" aria-labelledby="blogSubMenu">{% trans "Movies" %}</a>
 								
 								<div class="hs-sub-menu dropdown-menu" aria-labelledby="blogMegaMenu" style="min-width: 230px;">
 									{% for category in search_categories|slice:'10' %}
-									<a class="dropdown-item" href="{% url 'category' category.slug %}">{{ category.name }}</a>
+										{% if request.LANGUAGE_CODE == 'uk' %}
+										<a class="dropdown-item" href="{% url 'category' category.slug %}">{{ category.name }}</a>
+										{% else %}
+										<a class="dropdown-item" href="{% url 'category' category.slug %}">{{ category.name_en }}</a>
+										{% endif%}
 									{% endfor %}
 								</div>
 							</li>
 							<li class="hs-has-mega-menu navbar-nav-item">
-								<a id="tvshowsMegaMenu" class="hs-mega-menu-invoker nav-link nav-link-toggle font-secondary" href="javascript:;" aria-haspopup="true" aria-expanded="false">TV Shows</a>
+								<a id="tvshowsMegaMenu" class="hs-mega-menu-invoker nav-link nav-link-toggle font-secondary" href="javascript:;" aria-haspopup="true" aria-expanded="false">{% trans "TV Shows" %}</a>
 								
 								<div class="hs-mega-menu dropdown-menu w-100" aria-labelledby="tvshowsMegaMenu">
 									<div class="mega-menu-body">
@@ -76,13 +76,13 @@
 													<div class="min-w-224">
 														<ul class="list-unstyled mb-0">
 															<li class="py-1">
-																<a class="h-b-primary font-weight-bold  font-size-14" href="#">Trending TV Shows |У розробці|</a>
+																<a class="h-b-primary font-weight-bold  font-size-14" href="#">{% trans "Trending TV Shows" %} |У розробці|</a>
 															</li>
 														</ul>
 													</div>
 												</div>
 												<div class="col px-lg-5">
-													<div class="font-size-14 text-dark font-weight-bold mb-3">Picked for You: Madras Themes
+													<div class="font-size-14 text-dark font-weight-bold mb-3">{% trans "Picked for You: Madras Themes" %}
 														|У розробці|
 													</div>
 													<div class="row row-cols-md-3 row-cols-xl-5 mx-n2">
@@ -107,20 +107,33 @@
 								</div>
 							</li>
 							<li class="hs-has-sub-menu navbar-nav-item">
-								<a id="blogMegaMenu" class="hs-mega-menu-invoker nav-link nav-link-toggle font-secondary" href="javascript:;" aria-haspopup="true" aria-expanded="false" aria-labelledby="blogSubMenu">Blog</a>
+								<a id="blogMegaMenu" class="hs-mega-menu-invoker nav-link nav-link-toggle font-secondary" href="javascript:;" aria-haspopup="true" aria-expanded="false" aria-labelledby="blogSubMenu">{% trans "Blog" %}</a>
 								
 								<div id="blogSubMenu" class="hs-sub-menu dropdown-menu" aria-labelledby="blogMegaMenu" style="min-width: 230px;">
-									<a class="dropdown-item" href="#">Blog |У розробці |</a>
-									<a class="dropdown-item" href="#">Blog Single |У розробці |</a>
+									<a class="dropdown-item" href="#">{% trans "Blog" %} |У розробці |</a>
+									<a class="dropdown-item" href="#">{% trans "Blog Single" %} |У розробці |</a>
 								</div>
 							</li>
 						</ul>
 					</div>
 				</div>
-				
+				  <span class="separator"></span>
+
+                <div class="header-lang">
+                    {% get_current_language as LANGUAGE_CODE %}
+                    {% if request.LANGUAGE_CODE == 'uk' %}
+                    <a href="{{ request|switch_i18n:'default' }}" class="header-lang__lang en active"><i class="flag-us flag mr-2"></i>English</a>
+                    {% else %}
+                    <a href="{{ request|switch_i18n:'uk' }}" class="header-lang__lang uk active"><i class="flag-ua flag mr-2"></i>Українська</a>
+                    {% endif %}
+                </div>
+                <!-- End .header-dropown -->
+                <span class="separator"></span>
+				<li>
+				</li>
 				<div class="d-flex align-items-center ml-auto">
 					<form class="d-none d-xl-block">
-						<label class="sr-only">Search</label>
+						<label class="sr-only">{% trans "Search" %}</label>
 						<div class="input-group">
 							<input type="email" class="search-form-control form-control py-2 pl-4 min-width-250 rounded-pill" name="email" id="searchproduct-item" placeholder="Search..." aria-label="Search..." aria-describedby="searchProduct1"
 								   required="">
@@ -176,8 +189,8 @@
 									</a>
 									<div id="basicDropdownHover" class="hs-unfold-content dropdown-menu my-account-dropdown">
 										
-										<a class="dropdown-item" href="javascript:;" data-toggle="modal" data-target="#loginModal">Sign in</a>
-										<a class="dropdown-item" href="javascript:;" data-toggle="modal" data-target="#loginModal">Register</a>
+										<a class="dropdown-item" href="javascript:;" data-toggle="modal" data-target="#loginModal">{% trans "Sign in" %}</a>
+										<a class="dropdown-item" href="javascript:;" data-toggle="modal" data-target="#loginModal">{% trans "Register" %}</a>
 									
 									</div>
 								</div>

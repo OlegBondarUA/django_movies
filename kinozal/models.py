@@ -3,6 +3,7 @@ from django.db import models
 
 class Category(models.Model):
     name = models.CharField(max_length=35, unique=True)
+    name_en = models.CharField(max_length=50, default='')
     slug = models.SlugField(unique=True)
 
     class Meta:
@@ -14,6 +15,7 @@ class Category(models.Model):
 
 class Director(models.Model):
     name = models.CharField(max_length=50, unique=True)
+    name_en = models.CharField(max_length=50, default='')
 
     def __str__(self):
         return self.name
@@ -21,6 +23,7 @@ class Director(models.Model):
 
 class Actor(models.Model):
     name = models.CharField(max_length=250, unique=True)
+    name_en = models.CharField(max_length=50, default='')
 
     def __str__(self):
         return self.name

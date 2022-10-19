@@ -1,0 +1,186 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-10-19 16:28+0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: config/settings.py:145
+msgid "English"
+msgstr ""
+
+#: config/settings.py:146
+msgid "Ukrainian"
+msgstr ""
+
+#: kinozal/templates/footer.html:46
+msgid "Movie Categories"
+msgstr ""
+
+#: kinozal/templates/footer.html:60
+msgid "TV Series"
+msgstr ""
+
+#: kinozal/templates/footer.html:69
+msgid "Support"
+msgstr ""
+
+#: kinozal/templates/footer.html:72
+msgid "My Account"
+msgstr ""
+
+#: kinozal/templates/footer.html:75
+msgid "FAQ"
+msgstr ""
+
+#: kinozal/templates/footer.html:78
+msgid "Watch on TV"
+msgstr ""
+
+#: kinozal/templates/footer.html:81
+msgid "Help Center"
+msgstr ""
+
+#: kinozal/templates/footer.html:84
+msgid "Contact"
+msgstr ""
+
+#: kinozal/templates/header.html:56 kinozal/templates/movies.html:11
+#: kinozal/templates/single-movies.html:10
+msgid "Home"
+msgstr ""
+
+#: kinozal/templates/header.html:62 kinozal/templates/movies.html:91
+msgid "Movies"
+msgstr ""
+
+#: kinozal/templates/header.html:75
+msgid "TV Shows"
+msgstr ""
+
+#: kinozal/templates/header.html:85
+msgid "Trending TV Shows"
+msgstr ""
+
+#: kinozal/templates/header.html:91
+msgid "Picked for You: Madras Themes"
+msgstr ""
+
+#: kinozal/templates/header.html:116 kinozal/templates/header.html:119
+msgid "Blog"
+msgstr ""
+
+#: kinozal/templates/header.html:120
+msgid "Blog Single"
+msgstr ""
+
+#: kinozal/templates/header.html:142
+msgid "Search"
+msgstr ""
+
+#: kinozal/templates/header.html:198
+msgid "Sign in"
+msgstr ""
+
+#: kinozal/templates/header.html:199
+msgid "Register"
+msgstr ""
+
+#: kinozal/templates/index.html:36 kinozal/templates/movies.html:257
+#: kinozal/templates/movies.html:303 kinozal/templates/single-movies.html:100
+msgid "WATCH NOW"
+msgstr ""
+
+#: kinozal/templates/index.html:37 kinozal/templates/movies.html:260
+#: kinozal/templates/movies.html:306 kinozal/templates/single-movies.html:101
+msgid "TRAILER"
+msgstr ""
+
+#: kinozal/templates/index.html:45
+msgid "Todays Recomendation"
+msgstr ""
+
+#: kinozal/templates/index.html:75
+msgid "Popular movies to watch"
+msgstr ""
+
+#: kinozal/templates/index.html:116
+msgid "Recommended"
+msgstr ""
+
+#: kinozal/templates/movies.html:12
+msgid "Mowies"
+msgstr ""
+
+#: kinozal/templates/movies.html:21
+msgid "Categories"
+msgstr ""
+
+#: kinozal/templates/movies.html:41
+msgid "Movies by years"
+msgstr ""
+
+#: kinozal/templates/movies.html:58
+msgid "Top 5 movies"
+msgstr ""
+
+#: kinozal/templates/single-movies.html:11
+msgid "Documentary"
+msgstr ""
+
+#: kinozal/templates/single-movies.html:12
+msgid "My Generation"
+msgstr ""
+
+#: kinozal/templates/single-movies.html:71
+msgid "Director"
+msgstr ""
+
+#: kinozal/templates/single-movies.html:83
+msgid "Actors"
+msgstr ""
+
+#: kinozal/templates/single-movies.html:107
+msgid "You may also like it"
+msgstr ""
+
+#: kinozal/templates/single-movies.html:138
+msgid "The director also shot"
+msgstr ""
+
+#: kinozal/templates/single-movies.html:193
+msgid "User reviews"
+msgstr ""
+
+#: kinozal/templates/single-movies.html:202
+msgid "User"
+msgstr ""
+
+#: kinozal/templates/single-movies.html:220
+msgid "Add a review"
+msgstr ""
+
+#: kinozal/templates/single-movies.html:223
+msgid "You must be"
+msgstr ""
+
+#: kinozal/templates/single-movies.html:224
+msgid "logged"
+msgstr ""
+
+#: kinozal/templates/single-movies.html:224
+msgid "in to post a review."
+msgstr ""

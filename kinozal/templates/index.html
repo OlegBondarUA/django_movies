@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 {% block main %}
 {% load static %}
+{% load i18n %}
 <main id="content">
 	<div class="home-slider position-relative overflow-hidden">
 		<div id="sliderSyncingNav" class="js-slick-carousel slick" data-hs-slick-carousel-options='{
@@ -13,19 +14,27 @@
 			<div class="bg-img-hero d-flex align-items-center min-h-676rem slider-gradient" style="background-image: url({% static 'img/background/kot.jpeg' %});">
 				<div class="container">
 					<div class="mx-3 mx-md-5  col-xl-5 px-0">
+						{% if request.LANGUAGE_CODE == 'uk' %}
 						<h1 class="display-3 mb-3"><a href="{% url 'single' film.slug %}" class="h-w-primary">{{ film.title }}</a></h1>
+						{% else %}
+						<h1 class="display-3 mb-3"><a href="{% url 'single' film.slug %}" class="h-w-primary">{{ film.title_en }}</a></h1>
+						{% endif %}
 						<div class="mb-4d">
 							<ul class="list-unstyled nav nav-meta nav-meta__white">
 								<li class="">{{ film.release_year }}</li>
 								{% for category in film.categories.all %}
-								<li class=""><a href="{% url 'category' category.slug %}">{{ category.name }} </a></li>
+									{% if request.LANGUAGE_CODE == 'uk' %}
+									<li class=""><a href="{% url 'category' category.slug %}">{{ category.name }} </a></li>
+									{% else %}
+									<li class=""><a href="{% url 'category' category.slug %}">{{ category.name_en }} </a></li>
+									{% endif %}
 								{% endfor %}
 								<li class="">{{ film.duration }}</li>
 							</ul>
 						</div>
 						<div class="d-md-flex">
-							<a href="{{ film.movie_link }}" class="btn btn-primary px-6 py-3d btn-sm mb-3 mb-md-0">ДИВИТИСЯ ЗАРАЗ</a>
-							<a href="{{ film.trailer_link }}" class="btn btn-outline-light ml-md-4 px-6 py-3d btn-sm">ТРЕЙЛЕР</a>
+							<a href="{{ film.movie_link }}" class="btn btn-primary px-6 py-3d btn-sm mb-3 mb-md-0">{% trans 'WATCH NOW' %}</a>
+							<a href="{{ film.trailer_link }}" class="btn btn-outline-light ml-md-4 px-6 py-3d btn-sm">{% trans 'TRAILER' %}</a>
 						</div>
 					</div>
 				</div>
@@ -33,7 +42,7 @@
 			{% endfor %}
 		</div>
 		<div class="d-none d-xl-flex position-xl-absolute col-xl-6 mr-3 right-0 bottom-0  mb-xl-12  slider-m-0 flex-column">
-			<h4 class="text-white font-size-22 font-weight-normal mb-3">Todays Recomendation</h4>
+			<h4 class="text-white font-size-22 font-weight-normal mb-3">{% trans 'Todays Recomendation' %}</h4>
 			<div id="sliderSyncingThumb" class="js-slick-carousel slick slick-gutters-1 slick-transform-off" data-hs-slick-carousel-options='{
                         "infinite": true,
                         "slidesToShow": 8,
@@ -63,7 +72,7 @@
 			<div class="row mb-xl-5">
 				<div class="col-xl-auto d-flex">
 					<header class="max-w-370 mt-auto mb-8 title-dash">
-						<h3 class="display-7 text-white mb-3 pr-xl-12 font-weight-semi-bold">Популярні фільми для перегляду</h3>
+						<h3 class="display-7 text-white mb-3 pr-xl-12 font-weight-semi-bold">{% trans 'Popular movies to watch' %}</h3>
 						<div class="border-top border-g-1200-op mr-xl-7">
 						</div>
 					</header>
@@ -80,10 +89,18 @@
 								<div class="product-meta font-size-12 mb-1">
 									<span><a href="../single-movies/single-movies-v2.html" class="h-g-primary">{{ film.release_year }}</a></span>
 									{% for category in film.categories.all %}
-									<span><a href="{% url 'category' category.slug %}" class="h-g-primary">{{ category.name }} </a></span>
+										{% if request.LANGUAGE_CODE == 'uk' %}
+										<span><a href="{% url 'category' category.slug %}" class="h-g-primary">{{ category.name }} </a></span>
+										{% else %}
+										<span><a href="{% url 'category' category.slug %}" class="h-g-primary">{{ category.name_en }} </a></span>
+										{% endif %}
 									{% endfor %}
 								</div>
+								{% if request.LANGUAGE_CODE == 'uk' %}
 								<div class="product-title font-weight-bold font-size-1"><a href="{% url 'single' film.slug %}">{{ film.title }}</a></div>
+								{% else %}
+								<div class="product-title font-weight-bold font-size-1"><a href="{% url 'single' film.slug %}">{{ film.title_en }}</a></div>
+								{% endif %}
 							</div>
 						</div>
 						{% endfor %}
@@ -96,17 +113,25 @@
 					<div class="product">
 						<div class="product-image mb-2">
 							<a href="{% url 'single' film.slug %}" class="d-inline-block position-relative stretched-link">
-								<span class="position-absolute px-2d line-height-lg bg-primary rounded content-centered-x z-index-2 mt-n2 text-white font-size-12">Рекомендовані</span>
+								<span class="position-absolute px-2d line-height-lg bg-primary rounded content-centered-x z-index-2 mt-n2 text-white font-size-12">{% trans 'Recommended' %}</span>
 								<img class="img-fluid" src="{{ film.image.url }}" alt="Image Description">
 							</a>
 						</div>
 						<div class="product-meta font-size-12 mb-1">
 							<span><a href="../single-movies/single-movies-v2.html" class="h-g-primary">{{ film.release_year }}</a></span>
 							{% for category in film.categories.all %}
-							<span><a href="{% url 'category' category.slug %}" class="h-g-primary">{{ category.name }} </a></span>
+								{% if request.LANGUAGE_CODE == 'uk' %}
+								<span><a href="{% url 'category' category.slug %}" class="h-g-primary">{{ category.name }} </a></span>
+								{% else %}
+								<span><a href="{% url 'category' category.slug %}" class="h-g-primary">{{ category.name_en }} </a></span>
+								{% endif %}
 							{% endfor %}
 						</div>
+						{% if request.LANGUAGE_CODE == 'uk' %}
 						<div class="product-title font-weight-bold font-size-1"><a href="{% url 'single' film.slug %}">{{ film.title }}</a></div>
+						{% else %}
+						<div class="product-title font-weight-bold font-size-1"><a href="{% url 'single' film.slug %}">{{ film.title_en }}</a></div>
+						{% endif %}
 					</div>
 				</div>
 				{% endfor %}

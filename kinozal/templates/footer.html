@@ -1,3 +1,4 @@
+{% load i18n %}
 <footer class="">
 	<div class="bg-gray-4000">
 		<div class="container px-md-5">
@@ -42,17 +43,21 @@
 			</div>
 			<div class="row pb-5">
 				<div class="col-md mb-5 mb-md-0">
-					<h4 class="font-size-18 font-weight-medium mb-4 text-gray-4200">Movie Categories</h4>
+					<h4 class="font-size-18 font-weight-medium mb-4 text-gray-4200">{% trans 'Movie Categories' %}</h4>
 					<ul class="column-count-2 v2 list-unstyled mb-0">
 						{% for category in search_categories|slice:'10' %}
 						<li class="py-1d">
+							{% if request.LANGUAGE_CODE == 'uk' %}
 							<a class="h-g-white" href="{% url 'category' category.slug %}">{{ category.name }}</a>
+							{% else %}
+							<a class="h-g-white" href="{% url 'category' category.slug %}">{{ category.name_en }}</a>
+							{% endif %}
 						</li>
 						{% endfor %}
 					</ul>
 				</div>
 				<div class="col-md mb-5 mb-md-0">
-					<h4 class="font-size-18 font-weight-medium mb-4 text-gray-4200">TV Series | У розробці |</h4>
+					<h4 class="font-size-18 font-weight-medium mb-4 text-gray-4200">{% trans 'TV Series' %} | У розробці |</h4>
 					<ul class="column-count-2 v2 list-unstyled mb-0">
 						<li class="py-1d">
 							<a class="h-g-white" href="#">Valentine Day</a>
@@ -61,22 +66,22 @@
 				</div>
 				<div class="col-md-2 mb-5 mb-md-0 border-left border-gray-4100">
 					<div class="ml-1">
-						<h4 class="font-size-18 font-weight-medium mb-4 text-gray-4200">Support</h4>
+						<h4 class="font-size-18 font-weight-medium mb-4 text-gray-4200">{% trans 'Support' %}</h4>
 						<ul class="list-unstyled mb-0">
 							<li class="py-1d">
-								<a class="h-g-white" href="#">My Account</a>
+								<a class="h-g-white" href="#">{% trans 'My Account' %}</a>
 							</li>
 							<li class="py-1d">
-								<a class="h-g-white" href="{% url 'contact' %}">FAQ</a>
+								<a class="h-g-white" href="{% url 'contact' %}">{% trans 'FAQ' %}</a>
 							</li>
 							<li class="py-1d">
-								<a class="h-g-white" href="#">Watch on TV</a>
+								<a class="h-g-white" href="#">{% trans 'Watch on TV' %}</a>
 							</li>
 							<li class="py-1d">
-								<a class="h-g-white" href="{% url 'contact' %}">Help Center</a>
+								<a class="h-g-white" href="{% url 'contact' %}">{% trans 'Help Center' %}</a>
 							</li>
 							<li class="py-1d">
-								<a class="h-g-white" href="{% url 'contact' %}">Contact</a>
+								<a class="h-g-white" href="{% url 'contact' %}">{% trans 'Contact' %}</a>
 							</li>
 						</ul>
 					</div>

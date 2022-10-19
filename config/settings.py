@@ -13,6 +13,9 @@ import os.path
 from pathlib import Path
 from decouple import config
 
+from django.utils.translation import gettext_lazy as _
+
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -36,6 +39,8 @@ INTERNAL_IPS = [
 # Application definition
 
 INSTALLED_APPS = [
+    'jazzmin',
+
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -43,7 +48,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     # third party
-    'jazzmin',
+
     'django_summernote',
     'debug_toolbar',
     'widget_tweaks',
@@ -59,12 +64,14 @@ MIDDLEWARE = [
     'debug_toolbar.middleware.DebugToolbarMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
 
 ROOT_URLCONF = 'config.urls'
 
@@ -130,9 +137,18 @@ LANGUAGE_CODE = 'en-us'
 TIME_ZONE = 'UTC'
 
 USE_I18N = True
+USE_L10N = True
 
 USE_TZ = True
 
+LANGUAGES = (
+    ('en', _('English')),
+    ('uk', _('Ukrainian')),
+)
+
+LOCALE_PATHS = [
+    BASE_DIR / 'locale/',
+]
 
 STATIC_URL = 'static/'
 

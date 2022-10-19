@@ -1,14 +1,14 @@
 {% extends 'base.html' %}
 {% block main %}
 {% load static %}
+{% load i18n %}
 <main id="content">
 	<div class="bg-gray-1100 space-bottom-2 space-bottom-lg-3">
 		<div class="container px-md-6">
 			<nav aria-label="breadcrumb">
 				<ol class="breadcrumb dark font-size-1">
-					<li class="breadcrumb-item"><a href="../home/index.html" class="text-gray-1300">Home</a></li>
-					<li class="breadcrumb-item"><a href="#" class="text-gray-1300">Documentary</a></li>
-					<li class="breadcrumb-item text-white active" aria-current="page"> My Generation</li>
+					<li class="breadcrumb-item"><a href="{% url 'index' %}" class="text-gray-1300">{% trans "Home" %}</a></li>
+					<li class="breadcrumb-item text-white active" aria-current="page">{% trans "My Generation" %}</li>
 				</ol>
 			</nav>
 		</div>
@@ -27,7 +27,11 @@
 							<div class="row border-bottom border-gray-5600 space-bottom-2 no-gutters mb-4">
 								<div class="col-md-7 col-lg">
 									<div class="mb-5 mb-md-0">
+										{% if request.LANGUAGE_CODE == 'uk' %}
 										<h6 class="font-size-36 text-white mb-4 pb-1">{{ film.title }}</h6>
+										{% else %}
+										<h6 class="font-size-36 text-white mb-4 pb-1">{{ film.title_en }}</h6>
+										{% endif %}
 										<div class="d-flex align-items-center mb-5">
 											<div class="d-flex">
 												<div>
@@ -41,7 +45,6 @@
 												<div>
 													<i class="far fa-heart font-size-30"></i>
 												</div>
-												<a href="#" class="text-gray-1300 ml-2">До списку відтворення</a>
 											</div>
 										</div>
 										<ul class="list-unstyled nav nav-meta font-secondary mb-3 pb-1 flex-nowrap flex-lg-wrap overflow-auto overflow-lg-hidden">
@@ -49,25 +52,41 @@
 											<li class="text-white flex-shrink-0 flex-shrink-lg-1">{{ film.duration }}</li>
 											<li class="text-white flex-shrink-0 flex-shrink-lg-1">
 												{% for category in film.categories.all %}
-												<a href="{% url 'category' category.slug %}" class="text-white">{{ category.name }} |</a>
+													{% if request.LANGUAGE_CODE == 'uk' %}
+													<a href="{% url 'category' category.slug %}" class="text-white">{{ category.name }} |</a>
+													{% else %}
+													<a href="{% url 'category' category.slug %}" class="text-white">{{ category.name_en }} |</a>
+													{% endif %}
 												{% endfor %}
 											</li>
 										</ul>
+										{% if request.LANGUAGE_CODE == 'uk' %}
 										<p class="text-gray-5500 font-size-16 mb-5 pb-1 text-lh-md">{{ film.description }}</p>
+										{% else %}
+										<p class="text-gray-5500 font-size-16 mb-5 pb-1 text-lh-md">{{ film.description_en }}</p>
+										{% endif %}
 										<div class="d-flex justify-content-between">
 											<div>
-												<span class="text-white font-size-13">Режисер</span>
+												<span class="text-white font-size-13">{% trans 'Director' %}</span>
 												<h6 class="font-size-15 mb-0">
 													{% for director in film.directors.all %}
-													<a href="../single-movies/single-movies-v1.html" class="text-white">{{ director.name }}</a>
+														{% if request.LANGUAGE_CODE == 'uk' %}
+														<a href="#" class="text-white">{{ director.name }}</a>
+														{% else %}
+														<a href="#" class="text-white">{{ director.name_en }}</a>
+														{% endif %}
 													{% endfor %}
 												</h6>
 											</div>
 											<div>
-												<span class="text-white font-size-13">Актори</span>
+												<span class="text-white font-size-13">{% trans 'Actors' %}</span>
 												<h6 class="font-size-15 mb-0">
 													{% for actor in film.actors.all %}
-													<a href="../single-movies/single-movies-v1.html" class="text-white">{{ actor.name }} |</a>
+														{% if request.LANGUAGE_CODE == 'uk' %}
+														<a href="#" class="text-white">{{ actor.name }} |</a>
+														{% else %}
+														<a href="#" class="text-white">{{ actor.name_en }} |</a>
+														{% endif %}
 													{% endfor %}
 												</h6>
 											</div>
@@ -77,14 +96,14 @@
 								<div class="col-md-5 col-lg-auto">
 									<div class="pl-md-3">
 										<div class="d-flex flex-column">
-											<a href="{{ film.movie_link }}" class="btn btn-primary d-flex align-items-center justify-content-center w-lg-220rem h-52rem mb-3" tabindex="0">ДИВИТИСЯ ЗАРАЗ</a>
-											<a href="{{ film.trailer_link }}" class="btn btn-outline-light d-flex align-items-center justify-content-center  w-lg-220rem h-52rem" tabindex="0">ТРЕЙЛЕР</a>
+											<a href="{{ film.movie_link }}" class="btn btn-primary d-flex align-items-center justify-content-center w-lg-220rem h-52rem mb-3" tabindex="0">{% trans 'WATCH NOW' %}</a>
+											<a href="{{ film.trailer_link }}" class="btn btn-outline-light d-flex align-items-center justify-content-center  w-lg-220rem h-52rem" tabindex="0">{% trans 'TRAILER' %}</a>
 										</div>
 									</div>
 								</div>
 							</div>
 							<div class="mb-6 mb-lg-8">
-								<div class="font-size-26 text-gray-5500 mb-3 pb-1">Вам також може сподобатися</div>
+								<div class="font-size-26 text-gray-5500 mb-3 pb-1">{% trans 'You may also like it' %}</div>
 								<div class="row row-cols-1 row-cols-md-3 row-cols-xl-6 mx-n2 dark">
 									{% for film in related_films %}
 									<div class="col-xl px-2">
@@ -97,17 +116,25 @@
 											<div class="product-meta font-size-12 mb-1">
 												<a href="../single-movies/single-movies-v1.html" class="h-g-primary">{{ film.release_year }} |</a>
 												{% for category in film.categories.all %}
-												<a href="{% url 'category' category.slug %}" class="h-g-primary">{{ category.name }} |</a>
+													{% if request.LANGUAGE_CODE == 'uk' %}
+													<a href="{% url 'category' category.slug %}" class="h-g-primary">{{ category.name }} |</a>
+													{% else %}
+													<a href="{% url 'category' category.slug %}" class="h-g-primary">{{ category.name_en }} |</a>
+													{% endif %}
 												{% endfor %}
 											</div>
+											{% if request.LANGUAGE_CODE == 'uk' %}
 											<div class="product-title font-weight-bold font-size-1"><a href="{% url 'single' film.slug %}">{{ film.title }}</a></div>
+											{% else %}
+											<div class="product-title font-weight-bold font-size-1"><a href="{% url 'single' film.slug %}">{{ film.title_en }}</a></div>
+											{% endif %}
 										</div>
 									</div>
 									{% endfor %}
 								</div>
 							</div>
 							<div class="mb-6 mb-lg-8">
-								<div class="font-size-26 text-gray-5500 mb-3 pb-1">Також режисер зняв</div>
+								<div class="font-size-26 text-gray-5500 mb-3 pb-1">{% trans 'The director also shot' %}</div>
 								<div class="row no-gutters dark">
 									{% for film in related_director %}
 									<div class="col-md-6">
@@ -124,13 +151,25 @@
 															<div class="product-meta font-size-12">
 																<a href="../single-movies/single-movies-v1.html" class="h-g-primary" tabindex="0">{{ film.release_year}} |</a>
 																{% for category in film.categories.all %}
-																<a href="{% url 'category' category.slug %}" class="h-g-primary">{{ category.name }} |</a>
+																	{% if request.LANGUAGE_CODE == 'uk' %}
+																	<a href="{% url 'category' category.slug %}" class="h-g-primary">{{ category.name }} |</a>
+																	{% else %}
+																	<a href="{% url 'category' category.slug %}" class="h-g-primary">{{ category.name_en }} |</a>
+																	{% endif %}
 																{% endfor %}
 															</div>
 															<div class="font-size-1 font-weight-bold mb-2 product-title d-inline-block">
+																{% if request.LANGUAGE_CODE == 'uk' %}
 																<a href="{% url 'single' film.slug%}">{{ film.title }}</a>
+																{% else %}
+																<a href="{% url 'single' film.slug%}">{{ film.title_en }}</a>
+																{% endif %}
 															</div>
+															{% if request.LANGUAGE_CODE == 'uk' %}
 															<p class="mb-2 font-size-1 line-clamp-1 text-gray-1300">{{ film.description }}</p>
+															{% else %}
+															<p class="mb-2 font-size-1 line-clamp-1 text-gray-1300">{{ film.description_en }}</p>
+															{% endif %}
 														</div>
 														<div class="d-flex align-items-center">
 															<div class="rating-number position-relative font-size-42">
@@ -150,7 +189,7 @@
 								</div>
 							</div>
 							<div class="mb-6">
-								<div class="description-title font-size-26 text-gray-5500 mb-3 pb-1">Відгуки користувачів</div>
+								<div class="description-title font-size-26 text-gray-5500 mb-3 pb-1">{% trans 'User reviews' %}</div>
 								{% for comment in film.comments.all %}
 								<div class="border-bottom border-gray-5600 mb-4 pb-4">
 									<div class="d-flex mb-3 pb-1">
@@ -159,7 +198,7 @@
 										</div>
 										<div class="ml-3">
 											<div class="mb-2">
-												<span class="text-primary">Користувач</span>
+												<span class="text-primary">{% trans 'User' %}</span>
 											</div>
 										</div>
 									</div>
@@ -177,11 +216,11 @@
 							<div>
 								<div class="home-section">
 									<header class="d-md-flex align-items-center justify-content-between mb-3 pb-1 w-100">
-										<h6 class="section-title-dark d-block position-relative font-size-18 font-weight-medium overflow-md-hidden m-0 text-white flex-grow-1">Додайте відгук</h6>
+										<h6 class="section-title-dark d-block position-relative font-size-18 font-weight-medium overflow-md-hidden m-0 text-white flex-grow-1">{% trans 'Add a review' %}</h6>
 									</header>
 								</div>
-								<div class="text-gray-1300">Ви повинні
-									<a href="#">увійти</a> щоб опублікувати відгук.
+								<div class="text-gray-1300">{% trans 'You must be' %}
+									<a href="#">{% trans 'logged' %}</a> {% trans 'in to post a review.' %}
 								</div>
 							</div>
 						</div>
