@@ -1,15 +1,16 @@
 {% extends 'base.html' %}
 {% block main %}
 {% load widget_tweaks %}
+{% load i18n %}
 <main id="content">
 	
 	<div class="bg-gray-1000 py-6 pt-lg-9 pb-lg-11 mb-7 mb-lg-10">
 		<div class="container px-md-5 mb-lg-2">
-			<h6 class="font-size-30 font-weight-semi-bold text-center mb-1">Contact</h6>
+			<h6 class="font-size-30 font-weight-semi-bold text-center mb-1">{% trans 'Contact' %}</h6>
 			<nav aria-label="breadcrumb">
 				<ol class="breadcrumb justify-content-center p-0">
-					<li class="breadcrumb-item"><a href="{% url 'index' %}">Home</a></li>
-					<li class="breadcrumb-item active" aria-current="page">Contact</li>
+					<li class="breadcrumb-item"><a href="{% url 'index' %}">{% trans 'Home' %}</a></li>
+					<li class="breadcrumb-item active" aria-current="page">{% trans 'Contact' %}</li>
 				</ol>
 			</nav>
 		</div>
@@ -32,7 +33,7 @@
 			<div class="row">
 				<div class="col-lg-7">
 					<div class="mb-5 mb-lg-0">
-						<h5 class="font-size-18 font-weight-medium mb-4">Write to us E-mail message</h5>
+						<h5 class="font-size-18 font-weight-medium mb-4">{% trans 'Write to us E-mail message' %}</h5>
 						
 						<form class="js-validate" action="/contact/" method="post">
 							{% csrf_token %}
@@ -41,7 +42,7 @@
 								<div class="col-sm-6 mb-3">
 									<div class="js-form-message">
 										<label class="input-label font-size-15 font-weight-medium font-size-15 font-weight-medium">
-											Your name
+											{% trans 'Your name' %}
 										</label>
 										{% render_field form.name class="js-form-message" type="text" placeholder="Your name" minlength="2" maxlength="25" id="contact-name" %}
 									</div>
@@ -51,7 +52,7 @@
 								<div class="col-sm-6 mb-3">
 									<div class="js-form-message">
 										<label class="input-label font-size-15 font-weight-medium">
-											Your email address
+											{% trans 'Your email address' %}
 										</label>
 										 {% render_field form.email class="js-form-message" type="email" placeholder="Your email address" id="contact-email" %}
 									</div>
@@ -61,7 +62,7 @@
 								<div class="col-sm-12 mb-3">
 									<div class="js-form-message">
 										<label class="input-label font-size-15 font-weight-medium">
-											Subject
+											{% trans 'Subject' %}
 										</label>
 										{% render_field form.subject class="js-form-message" type="text" placeholder="Subject" id="contact-subject" %}
 									</div>
@@ -71,7 +72,7 @@
 							
 							<div class="js-form-message mb-3">
 								<label class="input-label font-size-15 font-weight-medium">
-									Your Message
+									{% trans 'Your Message' %}
 								</label>
 								<div class="input-group">
 									{% render_field form.message class="form-control rounded-0" placeholder="Your Message" maxlenght="1000" id="contact-message" %}
@@ -80,7 +81,7 @@
 							
 							<div>
 								<button type="submit" class="btn btn-primary px-3 transition-3d-hover border-radius-sm font-size-1">
-									<span class="mx-1">Send Message</span>
+									<span class="mx-1">{% trans 'Send Message' %}</span>
 								</button>
 							</div>
 						</form>
@@ -89,7 +90,7 @@
 				</div>
 				<div class="col-lg-5">
 					<div class="pl-lg-5 ml-lg-1">
-						<h5 class="font-size-18 font-weight-medium mb-4">Frequently Asked Questions</h5>
+						<h5 class="font-size-18 font-weight-medium mb-4">{% trans 'Frequently Asked Questions' %}</h5>
 						<div class="mb-5 mb-lg-8">
 							
 							<div id="basicsAccordion">
@@ -102,12 +103,12 @@
 											<span class="card-btn-toggle-default">+</span>
 											<span class="card-btn-toggle-active">−</span>
 											</span>
-											<span class="text-primary font-size-1 font-secondary font-weight-medium ml-1">On how many devices can i watch at the same time?</span>
+											<span class="text-primary font-size-1 font-secondary font-weight-medium ml-1">{% trans 'On how many devices can i watch at the same time?' %}</span>
 										</button>
 									</div>
 									<div id="basicsCollapseOne" class="collapse" aria-labelledby="basicsHeadingOne" data-parent="#basicsAccordion">
 										<div class="card-body pl-4 pt-2 mt-1 pb-2">
-											Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry’s standard dummy text ever since the 1500s, when an unknown printer
+											{% trans 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry’s standard dummy text ever since the 1500s, when an unknown printer' %}
 										</div>
 									</div>
 								</div>
@@ -121,12 +122,12 @@
 											<span class="card-btn-toggle-default">+</span>
 											<span class="card-btn-toggle-active">−</span>
 											</span>
-											<span class="text-primary font-size-1 font-secondary font-weight-medium ml-1">First launch of Vodi</span>
+											<span class="text-primary font-size-1 font-secondary font-weight-medium ml-1">{% trans 'First launch of Vodi' %}</span>
 										</button>
 									</div>
 									<div id="basicsCollapseTwo" class="collapse" aria-labelledby="basicsHeadingTwo" data-parent="#basicsAccordion">
 										<span class="card-body pl-4 pt-2 mt-1 pb-2">
-										Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry’s standard dummy text ever since the 1500s, when an unknown printer
+										{% trans 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry’s standard dummy text ever since the 1500s, when an unknown printer' %}
 										</span>
 									</div>
 								</div>
@@ -140,12 +141,12 @@
 											<span class="card-btn-toggle-default">+</span>
 											<span class="card-btn-toggle-active">−</span>
 											</span>
-											<span class="text-primary font-size-1 font-secondary font-weight-medium ml-1">What is a Vodi?</span>
+											<span class="text-primary font-size-1 font-secondary font-weight-medium ml-1">{% trans 'What is a Vodi?' %}</span>
 										</button>
 									</div>
 									<div id="basicsCollapseThree" class="collapse" aria-labelledby="basicsHeadingThree" data-parent="#basicsAccordion">
 										<span class="card-body pl-4 pt-2 mt-1 pb-2">
-										Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry’s standard dummy text ever since the 1500s, when an unknown printer
+										{% trans 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry’s standard dummy text ever since the 1500s, when an unknown printer' %}
 										</span>
 									</div>
 								</div>
@@ -159,12 +160,12 @@
 											<span class="card-btn-toggle-default">+</span>
 											<span class="card-btn-toggle-active">−</span>
 											</span>
-											<span class="text-primary font-size-1 font-secondary font-weight-medium ml-1">Failure to login Vodi on Mobile</span>
+											<span class="text-primary font-size-1 font-secondary font-weight-medium ml-1">{% trans 'Failure to login Vodi on Mobile' %}</span>
 										</button>
 									</div>
 									<div id="basicsCollapseFour" class="collapse" aria-labelledby="basicsHeadingFour" data-parent="#basicsAccordion">
 										<span class="card-body pl-4 pt-2 mt-1 pb-2">
-										Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry’s standard dummy text ever since the 1500s, when an unknown printer
+										{% trans "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry’s standard dummy text ever since the 1500s, when an unknown printer" %}
 										</span>
 									</div>
 								</div>
@@ -178,12 +179,12 @@
 											<span class="card-btn-toggle-default">+</span>
 											<span class="card-btn-toggle-active">−</span>
 											</span>
-											<span class="text-primary font-size-1 font-secondary font-weight-medium ml-1">Access to Vodi + packages in European Union Countries</span>
+											<span class="text-primary font-size-1 font-secondary font-weight-medium ml-1">{% trans 'Access to Vodi + packages in European Union Countries' %}</span>
 										</button>
 									</div>
 									<div id="basicsCollapseFive" class="collapse" aria-labelledby="basicsHeadingFive" data-parent="#basicsAccordion">
 										<span class="card-body pl-4 pt-2 mt-1 pb-2">
-										Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry’s standard dummy text ever since the 1500s, when an unknown printer
+										{% trans "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry’s standard dummy text ever since the 1500s, when an unknown printer" %}
 										</span>
 									</div>
 								</div>
@@ -193,17 +194,17 @@
 						</div>
 						<div class="row">
 							<div class="col-md-6">
-								<h6 class="font-size-18 font-weight-medium mb-3 pb-1">Our Office</h6>
+								<h6 class="font-size-18 font-weight-medium mb-3 pb-1">{% trans 'Our Office' %}</h6>
 								<address class="font-size-13 text-gray-1300">
-									Brooklyn, New York <br>
-									849 Diamond Str, 112th Floor <br>
-									NY 10012 New York, United Stated America
+									{% trans 'Brooklyn, New York' %} <br>
+									{% trans '849 Diamond Str, 112th Floor' %} <br>
+									{5 trans 'NY 10012 New York, United Stated America' %}
 								</address>
 							</div>
 							<div class="col-md-6">
-								<h6 class="font-size-18 font-weight-medium mb-3 pb-1">Working Hours</h6>
-								<div class="font-size-13 text-gray-1300">Mon-Sat:8:00-17:00</div>
-								<div class="font-size-13 text-gray-1300">Sunday: Closed</div>
+								<h6 class="font-size-18 font-weight-medium mb-3 pb-1">{% trans 'Working Hours' %}</h6>
+								<div class="font-size-13 text-gray-1300">{% trans 'Mon-Sat:8:00-17:00' %}</div>
+								<div class="font-size-13 text-gray-1300">{% trans 'Sunday: Closed' %}</div>
 							</div>
 						</div>
 					</div>

@@ -49,7 +49,11 @@
 										</div>
 										<ul class="list-unstyled nav nav-meta font-secondary mb-3 pb-1 flex-nowrap flex-lg-wrap overflow-auto overflow-lg-hidden">
 											<li class="text-white flex-shrink-0 flex-shrink-lg-1">{{ film.release_year }}</li>
+											{% if request.LANGUAGE_CODE == 'uk' %}
 											<li class="text-white flex-shrink-0 flex-shrink-lg-1">{{ film.duration }}</li>
+											{% else %}
+											<li class="text-white flex-shrink-0 flex-shrink-lg-1">{{ film.duration_en }}</li>
+											{% endif %}
 											<li class="text-white flex-shrink-0 flex-shrink-lg-1">
 												{% for category in film.categories.all %}
 													{% if request.LANGUAGE_CODE == 'uk' %}
@@ -114,7 +118,7 @@
 												</a>
 											</div>
 											<div class="product-meta font-size-12 mb-1">
-												<a href="../single-movies/single-movies-v1.html" class="h-g-primary">{{ film.release_year }} |</a>
+												<a href="#" class="h-g-primary">{{ film.release_year }} |</a>
 												{% for category in film.categories.all %}
 													{% if request.LANGUAGE_CODE == 'uk' %}
 													<a href="{% url 'category' category.slug %}" class="h-g-primary">{{ category.name }} |</a>
@@ -149,7 +153,7 @@
 													<div class=" px-md-4d d-flex justify-content-between d-md-block">
 														<div>
 															<div class="product-meta font-size-12">
-																<a href="../single-movies/single-movies-v1.html" class="h-g-primary" tabindex="0">{{ film.release_year}} |</a>
+																<a href="#" class="h-g-primary" tabindex="0">{{ film.release_year}} |</a>
 																{% for category in film.categories.all %}
 																	{% if request.LANGUAGE_CODE == 'uk' %}
 																	<a href="{% url 'category' category.slug %}" class="h-g-primary">{{ category.name }} |</a>

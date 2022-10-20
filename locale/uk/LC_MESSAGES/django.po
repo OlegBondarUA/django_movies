@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-10-19 16:28+0300\n"
+"POT-Creation-Date: 2022-10-20 14:40+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -28,6 +28,100 @@ msgstr "Англійська"
 #: config/settings.py:146
 msgid "Ukrainian"
 msgstr "Українська"
+
+#: kinozal/templates/contact.html:9 kinozal/templates/contact.html:13
+#: kinozal/templates/footer.html:84
+msgid "Contact"
+msgstr "Контакт"
+
+#: kinozal/templates/contact.html:12 kinozal/templates/movies.html:11
+#: kinozal/templates/single-movies.html:10
+msgid "Home"
+msgstr "Додому"
+
+#: kinozal/templates/contact.html:36
+msgid "Write to us E-mail message"
+msgstr "Напишіть нам повідомлення на електронну пошту"
+
+#: kinozal/templates/contact.html:45
+msgid "Your name"
+msgstr "Твоє ім'я"
+
+#: kinozal/templates/contact.html:55
+msgid "Your email address"
+msgstr "Ваша електронна адреса"
+
+#: kinozal/templates/contact.html:65
+msgid "Subject"
+msgstr "Тема"
+
+#: kinozal/templates/contact.html:75
+msgid "Your Message"
+msgstr "Твоє повідомлення"
+
+#: kinozal/templates/contact.html:84
+msgid "Send Message"
+msgstr "Відправити повідомлення"
+
+#: kinozal/templates/contact.html:93
+msgid "Frequently Asked Questions"
+msgstr "Питання що часто задаються"
+
+#: kinozal/templates/contact.html:106
+msgid "On how many devices can i watch at the same time?"
+msgstr "На скількох пристроях я можу дивитися одночасно?"
+
+#: kinozal/templates/contact.html:111 kinozal/templates/contact.html:130
+#: kinozal/templates/contact.html:149 kinozal/templates/contact.html:168
+#: kinozal/templates/contact.html:187
+msgid ""
+"Lorem Ipsum is simply dummy text of the printing and typesetting industry. "
+"Lorem Ipsum has been the industry’s standard dummy text ever since the "
+"1500s, when an unknown printer"
+msgstr ""
+"Lorem Ipsum — це просто фіктивний текст для поліграфічної та набірної "
+"промисловості. Lorem Ipsum був стандартним фіктивним текстом у галузі з 1500-"
+"х років, коли невідомий друкар"
+
+#: kinozal/templates/contact.html:125
+msgid "First launch of Vodi"
+msgstr "Перший запуск Vodi"
+
+#: kinozal/templates/contact.html:144
+msgid "What is a Vodi?"
+msgstr "Що таке Vodi?"
+
+#: kinozal/templates/contact.html:163
+msgid "Failure to login Vodi on Mobile"
+msgstr "Помилка входу в Vodi на мобільному пристрої"
+
+#: kinozal/templates/contact.html:182
+msgid "Access to Vodi + packages in European Union Countries"
+msgstr "Доступ до пакетів Vodi + у країнах Європейського Союзу"
+
+#: kinozal/templates/contact.html:197
+msgid "Our Office"
+msgstr "Наш офіс"
+
+#: kinozal/templates/contact.html:199
+msgid "Brooklyn, New York"
+msgstr "Бруклін, Нью-Йорк"
+
+#: kinozal/templates/contact.html:200
+msgid "849 Diamond Str, 112th Floor"
+msgstr "Diamond Str, 849, 112 поверх"
+
+#: kinozal/templates/contact.html:205
+msgid "Working Hours"
+msgstr "Робочі години"
+
+#: kinozal/templates/contact.html:206
+msgid "Mon-Sat:8:00-17:00"
+msgstr "Пн-Сб: 8:00-17:00"
+
+#: kinozal/templates/contact.html:207
+msgid "Sunday: Closed"
+msgstr "Неділя: вихідний"
 
 #: kinozal/templates/footer.html:46
 msgid "Movie Categories"
@@ -57,59 +151,50 @@ msgstr "Дивитися по телевізору"
 msgid "Help Center"
 msgstr "Центр допомоги"
 
-#: kinozal/templates/footer.html:84
-msgid "Contact"
-msgstr "Контакт"
-
-#: kinozal/templates/header.html:56 kinozal/templates/movies.html:11
-#: kinozal/templates/single-movies.html:10
-msgid "Home"
-msgstr "Додому"
-
-#: kinozal/templates/movies.html:12
-#: kinozal/templates/header.html:62 kinozal/templates/movies.html:91
+#: kinozal/templates/header.html:56 kinozal/templates/movies.html:12
+#: kinozal/templates/movies.html:91
 msgid "Movies"
 msgstr "Фільми"
 
-#: kinozal/templates/header.html:75
+#: kinozal/templates/header.html:69
 msgid "TV Shows"
 msgstr "ТВ-шоу"
 
-#: kinozal/templates/header.html:85
+#: kinozal/templates/header.html:79
 msgid "Trending TV Shows"
 msgstr "Популярні телешоу"
 
-#: kinozal/templates/header.html:91
+#: kinozal/templates/header.html:85
 msgid "Picked for You: Madras Themes"
 msgstr "Вибрано для вас: теми Мадраса"
 
-#: kinozal/templates/header.html:116 kinozal/templates/header.html:119
+#: kinozal/templates/header.html:110 kinozal/templates/header.html:113
 msgid "Blog"
 msgstr "Блог"
 
-#: kinozal/templates/header.html:120
+#: kinozal/templates/header.html:114
 msgid "Blog Single"
 msgstr "Блоґ сінгл"
 
-#: kinozal/templates/header.html:142
+#: kinozal/templates/header.html:136
 msgid "Search"
 msgstr "Пошук"
 
-#: kinozal/templates/header.html:198
+#: kinozal/templates/header.html:192
 msgid "Sign in"
 msgstr "Увійти"
 
-#: kinozal/templates/header.html:199
+#: kinozal/templates/header.html:193
 msgid "Register"
 msgstr "Зареєструватися"
 
 #: kinozal/templates/index.html:36 kinozal/templates/movies.html:257
-#: kinozal/templates/movies.html:303 kinozal/templates/single-movies.html:100
+#: kinozal/templates/movies.html:303 kinozal/templates/single-movies.html:99
 msgid "WATCH NOW"
 msgstr "ДИВИТИСЯ ЗАРАЗ"
 
 #: kinozal/templates/index.html:37 kinozal/templates/movies.html:260
-#: kinozal/templates/movies.html:306 kinozal/templates/single-movies.html:101
+#: kinozal/templates/movies.html:306 kinozal/templates/single-movies.html:100
 msgid "TRAILER"
 msgstr "ТРЕЙЛЕР"
 
@@ -137,46 +222,46 @@ msgstr "Фільми по роках"
 msgid "Top 5 movies"
 msgstr "Топ 5 фільмів"
 
-#: kinozal/templates/single-movies.html:12
+#: kinozal/templates/single-movies.html:11
 msgid "My Generation"
 msgstr "Моє покоління"
 
-#: kinozal/templates/single-movies.html:71
+#: kinozal/templates/single-movies.html:70
 msgid "Director"
 msgstr "Режисер"
 
-#: kinozal/templates/single-movies.html:83
+#: kinozal/templates/single-movies.html:82
 msgid "Actors"
 msgstr "Актори"
 
-#: kinozal/templates/single-movies.html:107
+#: kinozal/templates/single-movies.html:106
 msgid "You may also like it"
 msgstr "Вам також може сподобатися"
 
-#: kinozal/templates/single-movies.html:138
+#: kinozal/templates/single-movies.html:137
 msgid "The director also shot"
 msgstr "Режисер також знімав"
 
-#: kinozal/templates/single-movies.html:193
+#: kinozal/templates/single-movies.html:192
 msgid "User reviews"
 msgstr "Відгуки користувачів"
 
-#: kinozal/templates/single-movies.html:202
+#: kinozal/templates/single-movies.html:201
 msgid "User"
 msgstr "Користувач"
 
-#: kinozal/templates/single-movies.html:220
+#: kinozal/templates/single-movies.html:219
 msgid "Add a review"
 msgstr "Додайте відгук"
 
-#: kinozal/templates/single-movies.html:223
+#: kinozal/templates/single-movies.html:222
 msgid "You must be"
 msgstr "Ви повинні"
 
-#: kinozal/templates/single-movies.html:224
+#: kinozal/templates/single-movies.html:223
 msgid "logged"
 msgstr "увійти"
 
-#: kinozal/templates/single-movies.html:224
+#: kinozal/templates/single-movies.html:223
 msgid "in to post a review."
 msgstr "щоб опублікувати відгук."

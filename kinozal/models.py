@@ -43,6 +43,7 @@ class Film(models.Model):
     slug = models.SlugField(max_length=255, unique=True)
     release_year = models.PositiveSmallIntegerField(null=True)
     duration = models.CharField(max_length=50, null=True)
+    duration_en = models.CharField(max_length=50, default='')
     rating = models.FloatField(max_length=5, null=True)
     description = models.TextField(default='')
     description_en = models.TextField(default='')

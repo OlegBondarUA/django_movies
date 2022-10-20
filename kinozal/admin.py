@@ -23,8 +23,10 @@ class FilmAdmin(SummernoteModelAdmin):
                 ('background',),
                 ('description',),
                 ('description_en',),
-                ('rating', 'duration', 'release_year'),
-                ('movie_link', 'trailer_link'),
+                ('duration', 'duration_en'),
+                ('rating', 'release_year'),
+                ('movie_link',),
+                ('trailer_link',),
             )
         }),
     )
@@ -37,7 +39,7 @@ class FilmAdmin(SummernoteModelAdmin):
 
     @staticmethod
     def translated(obj):
-        if obj.title_en and obj.description_en:
+        if obj.title_en and obj.description_en and obj.duration_en:
             return mark_safe(
                 '<img src="/static/admin/img/icon-yes.svg" alt=True>')
         return mark_safe(

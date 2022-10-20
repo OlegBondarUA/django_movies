@@ -29,7 +29,11 @@
 									<li class=""><a href="{% url 'category' category.slug %}">{{ category.name_en }} </a></li>
 									{% endif %}
 								{% endfor %}
+								{% if request.LANGUAGE_CODE == 'uk' %}
 								<li class="">{{ film.duration }}</li>
+								{% else %}
+								<li class="">{{ film.duration_en }}</li>
+								{% endif %}
 							</ul>
 						</div>
 						<div class="d-md-flex">
@@ -87,12 +91,12 @@
 								</div>
 								
 								<div class="product-meta font-size-12 mb-1">
-									<span><a href="../single-movies/single-movies-v2.html" class="h-g-primary">{{ film.release_year }}</a></span>
+									<span><a class="h-g-primary text-white">{{ film.release_year }}</a></span>
 									{% for category in film.categories.all %}
 										{% if request.LANGUAGE_CODE == 'uk' %}
-										<span><a href="{% url 'category' category.slug %}" class="h-g-primary">{{ category.name }} </a></span>
+										<span><a href="{% url 'category' category.slug %}" class="h-g-primary text-white">{{ category.name }} </a></span>
 										{% else %}
-										<span><a href="{% url 'category' category.slug %}" class="h-g-primary">{{ category.name_en }} </a></span>
+										<span><a href="{% url 'category' category.slug %}" class="h-g-primary text-white">{{ category.name_en }} </a></span>
 										{% endif %}
 									{% endfor %}
 								</div>
@@ -118,12 +122,12 @@
 							</a>
 						</div>
 						<div class="product-meta font-size-12 mb-1">
-							<span><a href="../single-movies/single-movies-v2.html" class="h-g-primary">{{ film.release_year }}</a></span>
+							<span><a class="text-white">{{ film.release_year }}</a></span>
 							{% for category in film.categories.all %}
 								{% if request.LANGUAGE_CODE == 'uk' %}
-								<span><a href="{% url 'category' category.slug %}" class="h-g-primary">{{ category.name }} </a></span>
+								<span><a href="{% url 'category' category.slug %}" class="h-g-primary text-white">{{ category.name }} </a></span>
 								{% else %}
-								<span><a href="{% url 'category' category.slug %}" class="h-g-primary">{{ category.name_en }} </a></span>
+								<span><a href="{% url 'category' category.slug %}" class="h-g-primary text-white">{{ category.name_en }} </a></span>
 								{% endif %}
 							{% endfor %}
 						</div>
