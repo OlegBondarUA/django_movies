@@ -1,3 +1,4 @@
+from django.contrib.postgres.search import SearchQuery, SearchRank, SearchVector
 from django.views.generic import TemplateView, ListView, DetailView
 
 from . models import Film
@@ -36,7 +37,7 @@ class SingleMoviesViews(DetailView):
 class MoviesCategoryViews(ListView):
     template_name = 'movies.html'
     model = Film
-    context_object_name = 'films_category'
+    context_object_name = 'films'
     slug_url_kwarg = 'slug'
     paginate_by = 30
 
@@ -69,7 +70,7 @@ class MoviesOlView(ListView):
     template_name = 'movies.html'
     model = Film
     paginate_by = 30
-    context_object_name = 'films_category'
+    context_object_name = 'films'
 
     def get(self, request, *args, **kwargs):
         self.year = int(self.request.GET['release_year'])\
@@ -93,3 +94,54 @@ class MoviesOlView(ListView):
             'top_film': selectors.max_rating_selector(10, 15),
         }
         return context
+
+
+class SearchView(ListView):
+    template_name = 'movies.html'
+    model = Film
+    context_object_name = 'films'
+    paginate_by = 30
+    search_query = None
+
+    def get(self, request, *args, **kwargs):
+        self.search_query = self.request.GET.get('q')
+        return super().get(request, *args, **kwargs)
+
+    def get_queryset(self):
+
+        return Film.objects.prefetch_related(
+            'categories').annotate(rank=self._create_search_rank()).filter(
+            rank__gte=0.3).order_by('-rank')
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        context |= {
+            'years': selectors.years_selector(),
+            'top_film': selectors.max_rating_selector(10, 15),
+        }
+        return context
+
+    def _create_search_rank(self) -> SearchRank:
+        if self.request.LANGUAGE_CODE == 'en-us':
+            vector = SearchVector('title_en', weight='A') \
+                     + SearchVector('release_year', weight='A') \
+                     + SearchVector('directors__name_en', weight='A') \
+
+
+            query = SearchQuery(self.search_query)
+            rank = SearchRank(
+                vector,
+                query,
+            )
+        else:
+            vector = SearchVector('title', weight='A') \
+                     + SearchVector('release_year', weight='A') \
+                     + SearchVector('directors__name', weight='A') \
+
+            query = SearchQuery(self.search_query)
+            rank = SearchRank(
+                vector,
+                query,
+             )
+        return rank
