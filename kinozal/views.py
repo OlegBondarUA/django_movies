@@ -111,7 +111,7 @@ class SearchView(ListView):
 
         return Film.objects.prefetch_related(
             'categories').annotate(rank=self._create_search_rank()).filter(
-            rank__gte=0.3).order_by('-rank')
+            rank__gte=0.3).distinct().order_by('-rank')
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -127,7 +127,8 @@ class SearchView(ListView):
             vector = SearchVector('title_en', weight='A') \
                      + SearchVector('release_year', weight='A') \
                      + SearchVector('directors__name_en', weight='A') \
-
+                      + SearchVector('actors__name_en', weight='A') \
+                      + SearchVector('categories__name_en', weight='A')
 
             query = SearchQuery(self.search_query)
             rank = SearchRank(
@@ -138,6 +139,8 @@ class SearchView(ListView):
             vector = SearchVector('title', weight='A') \
                      + SearchVector('release_year', weight='A') \
                      + SearchVector('directors__name', weight='A') \
+                     + SearchVector('actors__name', weight='A') \
+                     + SearchVector('categories__name', weight='A') \
 
             query = SearchQuery(self.search_query)
             rank = SearchRank(
