@@ -22,13 +22,13 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('summernote/', include('django_summernote.urls')),
-    path('', include('kinozal.urls')),
-    path('', include('website.urls')),
-] 
+
+]
 
 urlpatterns += i18n_patterns(
     path('', include('kinozal.urls')),
     path('', include('website.urls')),
+    path('', include('users.urls')),
     prefix_default_language=False
 )
 

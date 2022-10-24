@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+{% block main %}
+{% load widget_tweaks %}
+{% load i18n %}
+<main class="main">
+	<div class="page-header">
+		<div class="container d-flex flex-column align-items-center">
+			<nav aria-label="breadcrumb" class="breadcrumb-nav">
+				<div class="container">
+					<ol class="breadcrumb">
+						<li class="breadcrumb-item"><a href="{% url 'index' %}">Home</a></li>
+						<li class="breadcrumb-item active" aria-current="page">
+							My Account
+						</li>
+					</ol>
+				</div>
+			</nav>
+
+			<h1>My Account</h1>
+		</div>
+	</div>
+
+	<div class="container login-container">
+		<div class="row">
+			<div class="col-lg-10 mx-auto">
+				<div class="row">
+
+					<div class="col-md-6">
+						<div class="heading mb-1">
+							<h2 class="title">Register</h2>
+						</div>
+							<form action="/signup/" method="post">
+							{% csrf_token %}
+							<div class="row">
+								
+								<div class="col-sm-6 mb-3">
+									<div class="js-form-message">
+										<label class="input-label font-size-15 font-weight-medium font-size-15 font-weight-medium" for="register-username">
+											{% trans 'User name' %}
+										</label>
+										{% render_field form.username type="text" class="form-input form-wide" placeholder="Your Name" minlength="2" maxlength="50" id="register-username" %}									</div>
+								</div>
+								
+								
+								<div class="col-sm-6 mb-3">
+									<div class="js-form-message">
+										<label class="input-label font-size-15 font-weight-medium" for="register-email">
+											{% trans 'Your email address' %}
+										</label>
+										 {% render_field form.email type="email" class="form-input form-wide" placeholder="Email" id="register-email" %}
+									</div>
+								</div>
+								
+								
+								<div class="col-sm-12 mb-3">
+									<div class="js-form-message">
+										<label class="input-label font-size-15 font-weight-medium" for="register-password1">
+											{% trans 'Password' %}
+										</label>
+										{% render_field form.password1 type="password" class="form-input form-wide" placeholder="Password" id="register-password1" %}
+									</div>
+								</div>
+							
+							</div>
+							
+							<div class="js-form-message mb-3">
+								<label class="input-label font-size-15 font-weight-medium" for="register-password2">
+									{% trans 'Confirm Password' %}
+								</label>
+								<div class="input-group">
+									{% render_field form.password2 type="password" class="form-input form-wide" placeholder="Confirm password" id="register-password2" %}
+								</div>
+							</div>
+							
+							<div>
+								<button type="submit" class="btn btn-primary px-3 transition-3d-hover border-radius-sm font-size-1">
+									<span class="mx-1">{% trans 'Register' %}</span>
+								</button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</main><!-- End .main -->
+{% endblock main %}
