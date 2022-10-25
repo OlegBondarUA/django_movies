@@ -127,8 +127,8 @@ class SearchView(ListView):
             vector = SearchVector('title_en', weight='A') \
                      + SearchVector('release_year', weight='A') \
                      + SearchVector('directors__name_en', weight='A') \
-                      + SearchVector('actors__name_en', weight='A') \
-                      + SearchVector('categories__name_en', weight='A')
+                     + SearchVector('actors__name_en', weight='A') \
+                     + SearchVector('categories__name_en', weight='A')
 
             query = SearchQuery(self.search_query)
             rank = SearchRank(
