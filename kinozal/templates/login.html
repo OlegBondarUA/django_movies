@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+{% block main %}
+{% load widget_tweaks %}
+{% load i18n %}
+<main class="main">
+	<div class="page-header">
+		<div class="container d-flex flex-column align-items-center">
+			<nav aria-label="breadcrumb" class="breadcrumb-nav">
+				<div class="container">
+					<ol class="breadcrumb">
+						<li class="breadcrumb-item"><a href="{% url 'index' %}">Home</a></li>
+						<li class="breadcrumb-item active" aria-current="page">
+							My Account
+						</li>
+					</ol>
+				</div>
+			</nav>
+
+			<h1>My Account</h1>
+		</div>
+	</div>
+
+	<div class="container login-container">
+		<div class="row">
+			<div class="col-lg-10 mx-auto">
+				<div class="row">
+					
+					<div class="modal-body">
+						<form class="js-validate" action="/login/" method="post">
+							{% csrf_token %}
+							<div id="login">
+								<div class="text-center mb-7">
+									<h3 class="mb-0">Sign In to Vodi</h3>
+									<p>Login to manage your account.</p>
+								</div>
+								
+								<div class="js-form-message mb-4">
+									<label class="input-label" for="login-username">User name</label>
+									<div class="input-group input-group-sm mb-2">
+										{% render_field form.username type="text" class="form-input form-wide" placeholder="Your Name" minlength="2" maxlength="50" id="login-username" %}
+									</div>
+								</div>
+								
+								<div class="js-form-message mb-3">
+									<label class="input-label" for="login-password">Password</label>
+									<div class="input-group input-group-sm mb-2">
+										{% render_field form.password type="password" class="form-input form-wide" placeholder="Password" id="login-password" %}
+									</div>
+								</div>
+								
+								<div class="d-flex justify-content-end mb-4">
+									<a class="js-animation-link small link-underline" href="forgot-password.html" data-hs-show-animation-options='{"targetSelector": "#forgotPassword", "groupName": "idForm"}'>
+										Forgot Password?
+									</a>
+								</div>
+								<div class="mb-3">
+									<button type="submit" class="btn btn-sm btn-primary btn-block">Sign In</button>
+								</div>
+								<div class="text-center">
+									<span class="small text-muted">Do not have an account?</span>
+									<a href="{% url 'signup' %}">Sign Up
+									</a>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</main><!-- End .main -->
+{% endblock main %}
