@@ -15,7 +15,7 @@
 #
 #     def setUp(self):
 #         self.client = Client()
-#         self.index_url = reverse('single', args=['uves-ce-dzaz'])
+#         self.index_url = reverse(/single/, args=['uves-ce-dzaz'])
 #
 #     def test_IndexViews_GET(self):
 #         response = self.client.get(self.index_url)

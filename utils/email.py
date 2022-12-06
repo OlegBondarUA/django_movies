@@ -11,7 +11,7 @@ def send_html_email(
         template_name: str,
         context: dict[str, Any],
         to_email: list[str],
-        fom_email: str | None =settings.DEFAULT_FROM_EMAIL,
+        fom_email: str | None = settings.DEFAULT_FROM_EMAIL,
         message: str | None = ''
 ):
     html_message = loader.render_to_string(template_name, context)

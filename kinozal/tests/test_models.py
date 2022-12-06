@@ -11,20 +11,26 @@ from kinozal.models import (
 
 class FirstTestCase(TestCase):
 
-    def test_add_categories_and_get_all_objects(self):
-
-        categories = ['action', 'comedy', 'drama']
-        for category in categories:
-            obj = Category.objects.create(
+    def setUp(self):
+        self.categories = ['action', 'comedy', 'drama']
+        for category in self.categories:
+            self.obj = Category.objects.create(
                 name=category,
-                slug=category+'slug'
-
+                slug=category + '-slug'
             )
-            self.assertEqual(category, obj.name)
+
+    def test_add_categories_and_get_objects(self):
 
         objs = Category.objects.all()
-        slugs = Category.objects.get(slug='actionslug')
-        print('slug: ', slugs)
+        slugs = Category.objects.values_list('slug', flat=True).get(pk=1)
 
         self.assertEqual(objs.count(), 3)
-        self.assertEqual(slugs, 'action')
+        self.assertEqual(slugs, 'action-slug')
+
+    def test_string_representation(self):
+
+        category = Category(name='My category name')
+        self.assertEqual(str(category), category.name)
+
+    def test_verbose_name_plural(self):
+        self.assertEqual(str(Category._meta.verbose_name_plural), "Categories")
