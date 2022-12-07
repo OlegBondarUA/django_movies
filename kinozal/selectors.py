@@ -7,7 +7,7 @@ from .models import Film, Category
 
 def random_films_selector(films_number: int = 8) -> QuerySet[Film]:
     film_ids = Film.objects.values_list('pk', flat=True)
-    random_ids = sample(list(film_ids), films_number)
+    random_ids = sample(list(film_ids), min(films_number, len(film_ids)))
     return Film.objects.prefetch_related(
         'categories').filter(pk__in=random_ids)
 
@@ -36,7 +36,7 @@ def related_film_selector(film: Film) -> QuerySet[Film]:
     related_films = Film.objects.filter(
         categories__id__in=film.categories.all()
     ).values_list('id', flat=True)
-    random_ids = sample(list(related_films), 6)
+    random_ids = sample(list(related_films), min(6, len(related_films)))
     return Film.objects.prefetch_related(
         'categories').filter(pk__in=random_ids)
 
