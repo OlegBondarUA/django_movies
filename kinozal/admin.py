@@ -23,7 +23,7 @@ class FilmAdmin(SummernoteModelAdmin):
                 ('background',),
                 ('description',),
                 ('description_en',),
-                ('duration', 'duration_en'),
+                ('views', 'views_en'),
                 ('rating', 'release_year'),
                 ('movie_link',),
                 ('trailer_link',),

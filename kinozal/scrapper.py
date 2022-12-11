@@ -1,10 +1,11 @@
 import logging
 import sys
 from concurrent.futures import ThreadPoolExecutor
+from threading import Lock
 from queue import Queue
 from django.db.transaction import atomic
 
-import cyrtranslit
+from translate import Translator
 import requests
 from bs4 import BeautifulSoup
 from django.utils.text import slugify
@@ -12,190 +13,169 @@ from django.conf import settings
 
 from kinozal.models import Category, Director, Actor, Film, Comment, Country
 
-counter = 0
-TIME_OUT = 10
 
 logger = logging.getLogger('logit')
 
 
-def upload_image_to_local_media(
-        img_url: str,
-        image_name: str,
-):
-    with requests.Session() as session:
-        img_response = session.get(img_url, timeout=TIME_OUT)
+class ScrapeMovies:
+    TIME = 10
+    LOCK = Lock()
 
-    with open(f'media/images/{image_name}', 'wb') as file:
-        file.write(img_response.content)
+    def __init__(self, list_url: list):
+        self._list_url = list_url
 
+    def scrape(self):
+        qu = self._fill_queue()
+        print('Started scrapping!')
+        with ThreadPoolExecutor(max_workers=10) as executor:
+            executor.submit(self._scrape, qu)
 
-@atomic
-def process(html_string: str, url: str):
-    soup = BeautifulSoup(html_string, 'html.parser')
+    def _fill_queue(self):
+        qu = Queue()
 
-    try:
-        title = soup.select(".allhead .solototle")
-        title = title[0].text.strip()
+        for url in self._list_url:
+            qu.put(url)
 
-        release_year = soup.select(".fi-item .fi-desc")
-        release_year = release_year[1].text.strip()
+        return qu
 
-        country = soup.select(".fi-item .fi-desc")
-        country = country[2].text.strip().split(',')
+    def _scrape(self, qu: Queue):
+        while True:
+            url = qu.get()
+            print(qu.qsize(), url)
+            try:
+                response_string = self._get_response(url)
+                self._process(response_string, url)
+            except Exception as error:
+                print('Error', error)
+                qu.put(url)
 
-        duration = soup.select(".fi-item")
-        if duration[6].text.strip().startswith('Тривалість:'):
-            duration = duration[6].text.strip()
-        else:
-            duration = duration[7].text.strip()
+            if qu.qsize() == 0:
+                break
 
-        rating = soup.select(".fi-item")
-        if rating[9].text.strip().startswith('Доступно на:'):
-            rating = rating[8].text.strip()[0:3]
-        else:
-            rating = rating[9].text.strip()[0:3]
-
-        description = soup.find('div', class_="full-text clearfix")
-        description = description.text.strip()
-
-        image = soup.select(".film-poster a")
-        for img in image:
-            if img.get('href').startswith('https'):
-                image = img.get('href')
-            else:
-                image = f'https://uakino.club{img.get("href")}'
-        image_nam = image.split('/')[-1].split('/')[0].replace(' ',
-                                                               '-') + '.jpg'
-        logger.debug('Uploading images')
-
-        upload_image_to_local_media(
-            image,
-            image_nam.lower(),
-        )
-
-        movie_link = soup.select('#pre')
-        movie_link = [movie.get('src') for movie in movie_link]
-
-        trailer_link = soup.select('#pre')
-        trailer_link = [trailer.get('data-src') for trailer in trailer_link]
-        for urls in trailer_link:
-            trailer_link = urls
-
-        film, create = Film.objects.get_or_create(
-            defaults={
-                'base_url': url,
-                'title': title,
-                'image': f'images/{image_nam}',
-                'release_year': release_year,
-                'duration': duration,
-                'rating': rating,
-                'description': description,
-                'movie_link': movie_link[0],
-                'trailer_link': trailer_link,
-            },
-            slug=slugify(title := cyrtranslit.to_latin(title.strip().lower()),
-                         'me')
-        )
-
-        for count in country:
-            countr, _ = Country.objects.get_or_create(country=count.strip())
-
-            film.country.add(countr)
-
-        category = soup.select(".fi-item .fi-desc")
-        category = category[3].text.strip().split(',')
-        for categor in category:
-            cat, create = Category.objects.get_or_create(
-                name=categor.strip(), slug=categor.strip().lower()
-            )
-
-            film.categories.add(cat)
-
-        directors = soup.select(".fi-item .fi-desc")
-        directors = directors[4].text.strip().split(',')
-        for dire in directors:
-            direct, _ = Director.objects.get_or_create(name=dire)
-
-            film.directors.add(direct)
-
-        actors = soup.select(".fi-item .fi-desc")
-        actors = actors[5].text.strip().split(',')
-
-        for actor in actors:
-            act, _ = Actor.objects.get_or_create(name=actor)
-
-            film.actors.add(act)
-
-        comments = soup.select(".comments-tree-list .comm-body .comm-text")
-        comments = [comment.text.strip() for comment in comments]
-
-        for comment in comments:
-            comm, _ = Comment.objects.get_or_create(comment=comment)
-
-            film.comments.add(comm)
-
-        logger.debug('Done')
-        global counter
-        counter += 1
-        logger.debug(counter)
-    except Exception as error:
-        exc_type, exc_obj, exc_tb = sys.exc_info()
-        logger.error(f'Parsing Error {error} {exc_tb.tb_lineno}')
-
-
-def worker(queue: Queue):
-    while True:
-        url = queue.get()
-        logger.debug(f'[Working ON] {url}')
+    def _get_response(self, url: str):
         try:
             with requests.Session() as session:
-                response = session.get(
+                response = session.get(url, timeout=self.TIME)
+                print(response.status_code)
+                assert response.status_code == 200, 'Bad response'
+            return response.text
 
-                    url.rstrip(),
-                    allow_redirects=True,
-                    timeout=TIME_OUT,
-                    headers={'User-Agent': 'Custom'}
+        except Exception as error:
+            print(error)
+
+    @atomic
+    def _process(self, html_string: str, url):
+        translator = Translator(from_lang="uk", to_lang="en")
+        soup = BeautifulSoup(html_string, 'html.parser')
+        with self.LOCK:
+            try:
+                title = soup.select(".page__header h1")
+                title = title[0].text.strip().split('(')[0]
+                title_slug = translator.translate(title).replace(' ', '-').lower()
+
+                release_year = soup.select('.page__details ul li a')
+                release_year = release_year[0].text.strip()
+
+                country = soup.select('.page__details ul li span')
+                country = country[1].text.strip().split(',')
+
+                views = soup.select('.page__activity-item')
+                views = views[0].text.strip()
+
+                rating = soup.select('.page__rating-item')
+                rating = rating[0].text.strip().split(' ')[1]
+
+                description = soup.select('.page__text')
+                description = description[0].text.strip()
+
+                movie_link = soup.select('.tabs-block__content iframe')
+                movie_link = movie_link[1].get('src')
+
+                trailer_link = soup.select('.page__trailer iframe')
+                trailer_link = trailer_link[0].get('src')
+
+                comment = soup.select('.comment-item__main')
+                comment = comment[0].text.strip() if comment else None
+
+                category = soup.select('.page__meta-item')
+                category = category[0].text.strip().split('/')
+
+                directors = soup.select('.page__details-list li span')
+                directors = directors[5].text.strip().split(',')
+
+                actors = soup.select('.page__info-subinfo .line-clamp')
+                actors = actors[0].text.strip().split(': ')[1:]
+                actors = actors[0].split(',')
+
+                image = soup.select('.page__poster img')
+                image = f'https://ilovekino.online' \
+                        f'{image[0].get("data-src").strip()}'
+
+                image_name = image.split('-')[-1].split('/')[0].replace(' ',
+                                                                        '-')
+                self._upload_image_to_local_media(image, image_name)
+
+                film, create = Film.objects.get_or_create(
+                    defaults={
+                        'base_url': url,
+                        'title': title,
+                        'image': f'images/{image_name}',
+                        'release_year': release_year,
+                        'views': views,
+                        'rating': rating,
+                        'description': description,
+                        'movie_link': movie_link,
+                        'trailer_link': trailer_link,
+                    },
+                    slug=slugify(title_slug := title_slug)
                 )
-                logger.debug(response.status_code)
 
-                if response.status_code == 404:
-                    logger.warning(f'Page not found {url}')
-                    break
+                for item in country:
+                    countries, _ = Country.objects.get_or_create(
+                        country=item.strip())
+                    film.country.add(countries)
 
-                assert response.status_code in (200, 301, 302), 'Bad response'
+                for categor in category:
+                    category_slag = translator.translate(categor)
+                    cat, create = Category.objects.get_or_create(
+                        name=categor.strip(),
+                        slug=slugify(category_slag := category_slag.strip().lower()))
+                    film.categories.add(cat)
 
-            process(response.text, url)
+                for dire in directors:
+                    direct, _ = Director.objects.get_or_create(name=dire)
+                    film.directors.add(direct)
 
-        except (
-            requests.Timeout,
-            requests.TooManyRedirects,
-            requests.ConnectionError,
-            requests.RequestException,
-            requests.ConnectionError,
-            AssertionError
-        ) as error:
-            logger.error(f'An error happen {error}')
-            queue.put(url)
+                for actor in actors:
+                    act, _ = Actor.objects.get_or_create(name=actor)
+                    film.actors.add(act)
 
-        if queue.qsize() == 0:
-            break
+                for comments in comment:
+                    comm, _ = Comment.objects.get_or_create(comment=comments)
+                    film.comments.add(comm)
+
+            except Exception as error:
+                exc_type, exc_obj, exc_tb = sys.exc_info()
+                logger.error(f'Parser Error {error} {exc_tb.tb_lineno}')
+
+    def _upload_image_to_local_media(self, img_url: str, image_name: str):
+        with requests.Session() as session:
+            img_response = session.get(img_url, timeout=self.TIME)
+
+        with open(f'media/images/{image_name}', 'wb') as file:
+            file.write(img_response.content)
 
 
 def main():
-
+    list_url = []
     with open(f'{settings.BASE_DIR}/kinozal/links.txt') as file:
         links = file.readlines()
 
-    queue = Queue()
+    for url in links:
+        list_url.append(url.strip())
 
-    for url in links[51:250]:
-        queue.put(url)
-
-    worker_number = 20
-
-    with ThreadPoolExecutor(max_workers=worker_number) as executor:
-        for _ in range(worker_number):
-            executor.submit(worker, queue)
+    scraper = ScrapeMovies(list_url)
+    scraper.scrape()
 
 
 if __name__ == '__main__':

@@ -12,7 +12,7 @@ class TestViews(TestCase):
         self.user = get_user_model().objects.create(username='some_user')
         self.category1 = Category(name='comedy', slug='comedy-slug')
         self.category1.save()
-        self.category2= Category(name='action', slug='action-slug')
+        self.category2 = Category(name='action', slug='action-slug')
         self.category2.save()
         self.category3 = Category(name='melodrama', slug='melodrama-slug')
         self.category3.save()
@@ -23,7 +23,7 @@ class TestViews(TestCase):
                                'Beetroot_django/media/images/1538491614-1.jpg.jpg',
                          description="posting",
                          slug='django'
-                                        )
+                         )
         self.film.save()
         self.film.categories.add(self.category1)
 
