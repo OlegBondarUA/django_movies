@@ -20,6 +20,7 @@ logger = logging.getLogger('logit')
 class ScrapeMovies:
     TIME = 10
     LOCK = Lock()
+    MAX_WORKERS = 10
 
     def __init__(self, list_url: list):
         self._list_url = list_url
@@ -27,8 +28,9 @@ class ScrapeMovies:
     def scrape(self):
         qu = self._fill_queue()
         print('Started scrapping!')
-        with ThreadPoolExecutor(max_workers=10) as executor:
-            executor.submit(self._scrape, qu)
+        with ThreadPoolExecutor(max_workers=self.MAX_WORKERS) as executor:
+            for _ in range(2600):
+                executor.submit(self._scrape, qu)
 
     def _fill_queue(self):
         qu = Queue()
@@ -171,7 +173,7 @@ def main():
     with open(f'{settings.BASE_DIR}/kinozal/links.txt') as file:
         links = file.readlines()
 
-    for url in links:
+    for url in links[:2600]:
         list_url.append(url.strip())
 
     scraper = ScrapeMovies(list_url)

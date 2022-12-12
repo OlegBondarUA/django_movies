@@ -39,7 +39,7 @@ class FilmAdmin(SummernoteModelAdmin):
 
     @staticmethod
     def translated(obj):
-        if obj.title_en and obj.description_en and obj.duration_en:
+        if obj.title_en and obj.description_en and obj.views_en:
             return mark_safe(
                 '<img src="/static/admin/img/icon-yes.svg" alt=True>')
         return mark_safe(

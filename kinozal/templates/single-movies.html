@@ -50,9 +50,9 @@
 										<ul class="list-unstyled nav nav-meta font-secondary mb-3 pb-1 flex-nowrap flex-lg-wrap overflow-auto overflow-lg-hidden">
 											<li class="text-white flex-shrink-0 flex-shrink-lg-1">{{ film.release_year }}</li>
 											{% if request.LANGUAGE_CODE == 'uk' %}
-											<li class="text-white flex-shrink-0 flex-shrink-lg-1">{{ film.duration }}</li>
+											<li class="text-white flex-shrink-0 flex-shrink-lg-1">{{ film.views }}</li>
 											{% else %}
-											<li class="text-white flex-shrink-0 flex-shrink-lg-1">{{ film.duration_en }}</li>
+											<li class="text-white flex-shrink-0 flex-shrink-lg-1">{{ film.views_en }}</li>
 											{% endif %}
 											<li class="text-white flex-shrink-0 flex-shrink-lg-1">
 												{% for category in film.categories.all %}

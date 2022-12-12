@@ -24,12 +24,12 @@ translate_film.short_description = 'Translate Movie'
 def translate_object(obj: Model):
     try:
         with lock:
-            translate_list = [obj.title, obj.description, obj.duration]
+            translate_list = [obj.title, obj.description, obj.views]
             translated = translator.translate_batch(translate_list)
 
             obj.title_en = translated[0]
             obj.description_en = translated[1]
-            obj.duration_en = translated[2]
+            obj.views_en = translated[2]
             obj.save()
     except Exception as error:
             logger.error(f'translate - {obj.title} -> {error}')
