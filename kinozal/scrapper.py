@@ -29,7 +29,7 @@ class ScrapeMovies:
         qu = self._fill_queue()
         print('Started scrapping!')
         with ThreadPoolExecutor(max_workers=self.MAX_WORKERS) as executor:
-            for _ in range(2600):
+            for _ in range(self.MAX_WORKERS):
                 executor.submit(self._scrape, qu)
 
     def _fill_queue(self):
@@ -173,7 +173,7 @@ def main():
     with open(f'{settings.BASE_DIR}/kinozal/links.txt') as file:
         links = file.readlines()
 
-    for url in links[:2600]:
+    for url in links[500:510]:
         list_url.append(url.strip())
 
     scraper = ScrapeMovies(list_url)

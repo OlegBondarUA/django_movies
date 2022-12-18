@@ -11,7 +11,7 @@
                     "asNavFor": "#sliderSyncingThumb"
                 }'>
 			{% for film in today_recomendation %}
-			<div class="bg-img-hero d-flex align-items-center min-h-676rem slider-gradient" style="background-image: url({% static 'img/background/kot.jpeg' %});">
+			<div class="bg-img-hero d-flex align-items-center min-h-676rem slider-gradient" style="background-image: url({{ film.background.url }});">
 				<div class="container">
 					<div class="mx-3 mx-md-5  col-xl-5 px-0">
 						{% if request.LANGUAGE_CODE == 'uk' %}
