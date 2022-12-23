@@ -27,11 +27,6 @@ def years_selector() -> QuerySet[Film]:
         'release_year', flat=True).distinct().order_by('-release_year')
 
 
-def films_category_selector() -> QuerySet[Film]:
-    return Film.objects.prefetch_related(
-        'categories',).filter(categories='slug')
-
-
 def related_film_selector(film: Film) -> QuerySet[Film]:
     related_films = Film.objects.filter(
         categories__id__in=film.categories.all()

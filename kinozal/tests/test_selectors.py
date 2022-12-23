@@ -6,7 +6,6 @@ from kinozal.selectors import (
     max_rating_selector,
     categories_selector,
     years_selector,
-    films_category_selector,
     related_film_selector,
     related_director_selector
 )
@@ -32,7 +31,9 @@ class TestSelectors(TestCase):
                          description="posting",
                          movie_link='https://www.youtube.com/watch?v=5PSNL1qE6VY',
                          trailer_link='https://www.youtube.com/watch?v=5PSNL1qE6VY',
-                         slug='avatar-slug')
+                         slug='avatar-slug',
+                         # beckground='/Users/olegbondar/Python/project_django/Beetroot_django/media/background/24-hours-to-live.jpg',
+                         )
         self.film.save()
         self.film.categories.add(self.category2)
 
@@ -44,7 +45,9 @@ class TestSelectors(TestCase):
                          description="posting",
                          movie_link='https://www.youtube.com/watch?v=5PSNL1qE6VY',
                          trailer_link='https://www.youtube.com/watch?v=5PSNL1qE6VY',
-                         slug='alone-at-home-slug')
+                         slug='alone-at-home-slug',
+                         # beckground='/Users/olegbondar/Python/project_django/Beetroot_django/media/background/1917.jpg',
+                         )
         self.film.save()
         self.film.categories.add(self.category1)
 
@@ -52,11 +55,13 @@ class TestSelectors(TestCase):
                          release_year=2000,
                          image='/Users/olegbondar/Python/project_django/Beetroot_django/media/images/49150562.jpg',
                          views=567,
-                         rating=9,
+                         rating=6,
                          description="posting",
                          movie_link='https://www.youtube.com/watch?v=5PSNL1qE6VY',
                          trailer_link='https://www.youtube.com/watch?v=5PSNL1qE6VY',
-                         slug='titanic-slug')
+                         slug='titanic-slug',
+                         # beckground='/Users/olegbondar/Python/project_django/Beetroot_django/media/background/7500.jpg',
+                         )
         self.film.save()
         self.film.categories.add(self.category3)
 
@@ -68,10 +73,27 @@ class TestSelectors(TestCase):
                          description="posting",
                          movie_link='https://www.youtube.com/watch?v=5PSNL1qE6VY',
                          trailer_link='https://www.youtube.com/watch?v=5PSNL1qE6VY',
-                         slug='christmas-slug')
+                         slug='christmas-slug',
+                         # beckground='/Users/olegbondar/Python/project_django/Beetroot_django/media/background/Anna.jpg',
+                         )
         self.film.save()
         self.film.categories.add(self.category1, self.category2, self.category3)
 
     def test_random_films_selector(self):
         films = random_films_selector(2)
         self.assertEqual(len(films), 2)
+
+    def test_max_rating_selector(self):
+        result = max_rating_selector(2, 3)
+        self.assertEqual(result[0].title, 'alone at home')
+
+    def test_categories_selector(self):
+        result = categories_selector()
+        self.assertEqual(len(result), 3)
+        self.assertEqual(result[1].name , 'comedy')
+
+    def test_years_selector(self):
+        result = years_selector()
+        self.assertEqual(len(result), 4)
+        self.assertEqual(result[2], 2000)
+
