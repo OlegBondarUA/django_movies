@@ -64,7 +64,7 @@ def get_original_images():
         bytes(bytes(img, "ascii").decode("unicode-escape"), "ascii").decode(
             "unicode-escape") for img in matched_google_full_resolution_images
     ]
-
+    img = []
     for index, (metadata, thumbnail, original) in enumerate(
             zip(soup.select(".isv-r.PNCib.MSM1fd.BUooTd"), thumbnails,
                 full_res_images), start=1):
@@ -77,7 +77,8 @@ def get_original_images():
             "thumbnail": thumbnail,
             "original": original
         }
-    print(google_images['original'])
+        img.append(google_images["original"])
+    print(img[0])
 
         # Download original images
         # print(f"Downloading {index} image...")
@@ -88,7 +89,5 @@ def get_original_images():
 
         # urllib.request.urlretrieve(original, f"Bs4_Images/original_size_img_{index}.jpg")
 
-    return google_images
-
-
+        # return google_images
 get_original_images()
