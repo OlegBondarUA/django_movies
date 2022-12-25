@@ -21,5 +21,6 @@ urlpatterns = [
     path('search/', views.SearchView.as_view(), name='search'),
     path('movies/', views.MoviesOlView.as_view(), name='movies'),
     path('movies/<slug:slug>/', views.MoviesCategoryViews.as_view(), name='category'),
-    path('single-movies/<slug:slug>/', views.SingleMoviesViews.as_view(), name='single')
+    path('single-movies/<slug:slug>/', views.SingleMoviesViews.as_view(), name='single'),
+    path("review/<int:pk>/", views.AddReview.as_view(), name="add_review"),
 ]

@@ -1,7 +1,9 @@
 from django.contrib.postgres.search import SearchQuery, SearchRank, SearchVector
-from django.views.generic import TemplateView, ListView, DetailView
+from django.shortcuts import redirect
+from django.views.generic import TemplateView, ListView, DetailView, View
 
 from . models import Film
+from .forms import ReviewForm
 from . import selectors
 
 
@@ -148,3 +150,13 @@ class SearchView(ListView):
                 query,
              )
         return rank
+
+class AddReview(View):
+    def post(self, request, pk):
+        form = ReviewForm(request.POST)
+        film = Film.objects.get(id=pk)
+        if form.is_valid():
+            form = form.save(commit=False)
+            form.film = film
+            form.save()
+        return redirect(film.get_absolute_url())
