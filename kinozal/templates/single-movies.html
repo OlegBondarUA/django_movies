@@ -2,7 +2,7 @@
 {% block main %}
 {% load static %}
 {% load i18n %}
-<main id="content">
+<main id="content" xmlns="http://www.w3.org/1999/html">
 	<div class="bg-gray-1100 space-bottom-2 space-bottom-lg-3">
 		<div class="container px-md-6">
 			<nav aria-label="breadcrumb">
@@ -192,26 +192,19 @@
 									{% endfor %}
 								</div>
 							</div>
-							{% for review in film.reviews_set.all %}
-							<div class="media py-5">
-								<img src="/static/img/36x36/img1.jpg" class="mr-3 img-fluid" alt="image">
-								<div class="media-body mt-4">
-									<h5 class="mt-0 editContent" style="color: #9f9fa4">
-										{{ review.name }}
-									</h5>
-									<p class="mt-2 editContent" style="color: #9f9fa4">
-										{{ review.text }}
-								</div>
-							</div>
-							{% endfor %}
 							<div class="row">
 							<div class="single-form-left">
 								<!-- contact form grid -->
 								<div class="contact-single color-white">
 									<h3 class="editContent" style="outline: none; cursor: inherit; color: #9f9fa4">
-										<span class="sub-tittle editContent" style="outline: none; cursor: inherit;"></span>Залишити відгук</h3>
-									<form action="{% url 'add_review' film.id %}" method="post" class="mt-4">
+										<span class="sub-tittle editContent">Усього відгуків {{ film.reviews_set.count }}</span>
+									</h3>
+									<h3 class="editContent" style="outline: none; cursor: inherit; color: #9f9fa4">
+										<span> Залишити відгук </span>
+									</h3>
+									<form action="{% url 'add_review' film.id %}" method="post" class="mt-4" id="formReview">
 										{% csrf_token %}
+										<input type="hidden" name="parent" id="contactparent" value="">
 										<div class="form-group editContent">
 											<label for="contactcomment" class="editContent">Ваш відгук *</label>
 											<textarea class="form-control border" rows="5" name="text" id="contactcomment" required=""></textarea></div>
@@ -231,7 +224,37 @@
 								<!--  //contact form grid ends here -->
 							</div>
 						</div>
+							{% for review in film.get_review %}
+								<div class="media py-5">
+									<img src="{% static 'img/36x36/img1.jpg' %}" class="mr-3 img-fluid" alt="image">
+									<div class="media-body mt-4">
+										<h5 class="mt-0 editContent" style="color: honeydew">{{ review.name }}
+										</h5>
+										<p class="mt-2 editContent" style="color: honeydew">{{ review.text }}
+										</p>
+										<a href="#formReview" onclick="addReview('{{ review.name }}', '{{ review.id }}')">Відповісти</a>
+										{% for rew in review.reviews_set.all %}
+											<div class="media mt-5 editContent">
+												<a class="pr-3" href="#">
+													<img src="{% static 'img/36x36/img1.jpg' %}" class="img-fluid " alt="image">
+												</a>
+												<div class="media-body">
+													<h5 class="mt-0 editContent" style="color: honeydew">{{ rew.name }}</h5>
+													<p class="mt-2 editContent" style="color: honeydew">{{ rew.text }}</p>
+												</div>
+											</div>
+										{% endfor %}
+									</div>
+								</div>
+							{% endfor %}
+						</div>
 					</div>
+					<script>
+						function addReview(name, id) {
+							document.getElementById("contactparent").value = id;
+							document.getElementById("contactcomment").innerText = `${name}, `
+						}
+					</script>
 				</div>
 			</div>
 		</section>
