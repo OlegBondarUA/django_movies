@@ -66,14 +66,6 @@ class Film(models.Model):
         return reverse("single", kwargs={"slug": self.slug})
 
 
-class Comment(models.Model):
-    films = models.ForeignKey(Film, null=True, on_delete=models.CASCADE,
-                              related_name='comments')
-    comment = models.TextField(default='')
-
-    def __str__(self):
-        return self.comment
-
 class Reviews(models.Model):
     """Comments"""
     email = models.EmailField()
@@ -88,5 +80,5 @@ class Reviews(models.Model):
         return f"{self.name} - {self.film}"
 
     class Meta:
-        verbose_name = "Comment"
+        verbose_name = "Review"
         verbose_name_plural = "Reviews"

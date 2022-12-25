@@ -11,7 +11,7 @@ from bs4 import BeautifulSoup
 from django.utils.text import slugify
 from django.conf import settings
 
-from kinozal.models import Category, Director, Actor, Film, Comment, Country
+from kinozal.models import Category, Director, Actor, Film, Country
 
 
 logger = logging.getLogger('logit')
@@ -96,9 +96,6 @@ class ScrapeMovies:
                 trailer_link = soup.select('.page__trailer iframe')
                 trailer_link = trailer_link[0].get('src')
 
-                comment = soup.select('.comment-item__main')
-                comment = comment[0].text.strip() if comment else None
-
                 category = soup.select('.page__meta-item')
                 category = category[0].text.strip().split('/')
 
@@ -151,10 +148,6 @@ class ScrapeMovies:
                 for actor in actors:
                     act, _ = Actor.objects.get_or_create(name=actor)
                     film.actors.add(act)
-
-                for comments in comment:
-                    comm, _ = Comment.objects.get_or_create(comment=comments)
-                    film.comments.add(comm)
 
             except Exception as error:
                 exc_type, exc_obj, exc_tb = sys.exc_info()

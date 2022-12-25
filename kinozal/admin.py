@@ -3,7 +3,7 @@ from django.utils.html import format_html, mark_safe
 from django_summernote.admin import SummernoteModelAdmin
 
 from .actions import translate_film, translate_name
-from . models import Category, Director, Actor, Film, Comment, Country, Reviews
+from . models import Category, Director, Actor, Film, Country, Reviews
 
 
 class FilmAdmin(SummernoteModelAdmin):
@@ -113,6 +113,5 @@ admin.site.register(Category, CategoryAdmin)
 admin.site.register(Director, DirectorAdmin)
 admin.site.register(Actor, ActorAdmin)
 admin.site.register(Film, FilmAdmin)
-admin.site.register(Comment)
 admin.site.register(Country, CountryAdmin)
 admin.site.register(Reviews)
