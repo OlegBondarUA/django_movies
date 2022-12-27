@@ -90,5 +90,6 @@ class TestSelectors(TestCase):
 
     def test_translate_film(self):
         movies = Film.objects.all()
-        translate_film('en', self.user, movies)
+        translate_film(None, None, movies)
+        movies = Film.objects.all()
         self.assertEqual(movies[0].title_en, 'Avatar')

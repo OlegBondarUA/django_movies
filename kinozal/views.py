@@ -1,4 +1,5 @@
 from django.contrib.postgres.search import SearchQuery, SearchRank, SearchVector
+from django.db.models import Q
 from django.shortcuts import redirect
 from django.views.generic import TemplateView, ListView, DetailView, View
 
@@ -81,13 +82,25 @@ class MoviesOlView(ListView):
 
     def get_queryset(self):
 
-        if self.year:
-            _filter = {
-                'release_year': self.year
-            }
-            return Film.objects.prefetch_related('categories').filter(**_filter)
-        else:
-            return Film.objects.prefetch_related('categories')
+        queryset = Film.objects.all().prefetch_related('categories')
+        year = self.request.GET.getlist('release_year')
+        category = self.request.GET.getlist('categories')
+        if year and category:
+            return queryset.filter(
+                Q(release_year__in=year) |
+                Q(categories__slug__in=category)
+            ).distinct()
+
+        elif year:
+            queryset = queryset.filter(
+                release_year__in=year
+            )
+        elif category:
+            queryset = queryset.filter(
+                categories__slug__in=category
+            )
+        return queryset
+
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
