@@ -1,36 +1,57 @@
 from django.test import TestCase
-from kinozal.models import (
-    Film,
-    Category,
-    Country,
-    Comment,
-    Actor,
-    Director
-)
+from kinozal.models import Film, Category, Director, Actor, Country, Reviews
 
-
-class FirstTestCase(TestCase):
-
+class FilmModelTest(TestCase):
     def setUp(self):
-        self.categories = ['action', 'comedy', 'drama']
-        for category in self.categories:
-            self.obj = Category.objects.create(
-                name=category,
-                slug=category + '-slug'
-            )
+        self.category = Category.objects.create(name='action', slug='action')
+        self.director = Director.objects.create(name='John Doe')
+        self.actor = Actor.objects.create(name='Jane Doe')
+        self.country = Country.objects.create(country='USA')
 
-    def test_add_categories_and_get_objects(self):
+        self.film = Film.objects.create(
+            title='Test Film',
+            release_year=2020,
+            views='1000',
+            rating=8.5,
+            description='Test description',
+            image='test.jpg',
+            movie_link='https://test.com',
+            trailer_link='https://test.com/trailer',
+            slug='test-film'
+        )
+        self.film.categories.add(self.category)
+        self.film.directors.add(self.director)
+        self.film.actors.add(self.actor)
+        self.film.country.add(self.country)
 
-        objs = Category.objects.all()
-        slugs = Category.objects.values_list('slug', flat=True).get(pk=1)
+    def test_film_model(self):
+        self.assertEqual(self.film.title, 'Test Film')
+        self.assertEqual(self.film.release_year, 2020)
+        self.assertEqual(self.film.views, '1000')
+        self.assertEqual(self.film.rating, 8.5)
+        self.assertEqual(self.film.description, 'Test description')
+        self.assertEqual(self.film.image.url, '/media/test.jpg')
+        self.assertEqual(self.film.movie_link, 'https://test.com')
+        self.assertEqual(self.film.trailer_link, 'https://test.com/trailer')
+        self.assertEqual(self.film.categories.first(), self.category)
+        self.assertEqual(self.film.directors.first(), self.director)
+        self.assertEqual(self.film.actors.first(), self.actor)
+        self.assertEqual(self.film.country.first(), self.country)
+        self.assertEqual(self.film.get_absolute_url(), '/single-movies/test-film/')
 
-        self.assertEqual(objs.count(), 3)
-        self.assertEqual(slugs, 'action-slug')
+class ReviewsModelTest(TestCase):
+    def setUp(self):
+        self.film = Film.objects.create(title='Test Film')
+        self.review = Reviews.objects.create(
+            email='test@example.com',
+            name='Test User',
+            text='Test review',
+            film=self.film
+        )
 
-    def test_string_representation(self):
+    def test_reviews_model(self):
+        self.assertEqual(self.review.email, 'test@example.com')
+        self.assertEqual(self.review.name, 'Test User')
+        self.assertEqual(self.review.text, 'Test review')
+        self.assertEqual(self.review.film, self.film)
 
-        category = Category(name='My category name')
-        self.assertEqual(str(category), category.name)
-
-    def test_verbose_name_plural(self):
-        self.assertEqual(str(Category._meta.verbose_name_plural), "Categories")
