@@ -4,7 +4,7 @@ from django.shortcuts import redirect
 from django.views.generic import TemplateView, ListView, DetailView, View
 
 from . models import Film
-from .forms import ReviewForm
+from . forms import ReviewForm
 from . import selectors
 
 
