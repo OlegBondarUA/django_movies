@@ -3,6 +3,7 @@ from django.contrib.auth import get_user_model
 from django.urls import reverse
 from kinozal.models import Category, Film
 from kinozal.views import IndexViews
+from kinozal.selectors import random_films_selector, max_rating_selector
 
 
 class TestViews(TestCase):
@@ -22,7 +23,9 @@ class TestViews(TestCase):
                          image='/Users/olegbondar/Python/project_django/'
                                'Beetroot_django/media/images/1538491614-1.jpg.jpg',
                          description="posting",
-                         slug='django'
+                         slug='django',
+                         background='Users/olegbondar/Python/project_django/'
+                               'Beetroot_django/media/images/1538491614-1.jpg.jpg'
                          )
         self.film.save()
         self.film.categories.add(self.category1)
@@ -37,12 +40,15 @@ class TestViews(TestCase):
 
         self.assertEqual(response.status_code, 200)
         self.assertIn('today_recomendation', context)
+        self.assertEqual(response.context['today_recomendation'][0], random_films_selector()[0])
+        self.assertEqual(response.context['max_rating'][0], max_rating_selector()[0])
 
     def test_SingleMoviesViews(self):
 
         response = self.client.get(reverse('single', args=(self.film.slug,)))
         self.assertEqual(response.status_code, 200)
         self.assertIn('related_films', response.context)
+
 
     def test_MoviesCategoryViews(self):
 
