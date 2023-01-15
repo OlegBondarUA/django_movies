@@ -1,5 +1,4 @@
 import logging
-import sys
 from concurrent.futures import ThreadPoolExecutor
 from threading import Lock
 from queue import Queue
