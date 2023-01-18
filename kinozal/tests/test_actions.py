@@ -1,7 +1,5 @@
 from django.test import TestCase
 from unittest import mock
-from unittest.mock import patch
-import time
 
 from kinozal.models import Film
 from kinozal.actions import translate_film
